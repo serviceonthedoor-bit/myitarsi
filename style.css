@@ -71,28 +71,81 @@ body {
     font-weight: 600;
 }
 
+/* ========== REPLACE THIS SECTION BELOW ========== */
 .category-tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
+    gap: 12px;
     justify-content: center;
+    align-items: center;
     margin-bottom: 36px;
+    padding: 0 8px;
 }
 
 .cat-btn {
     background: #eef2f0;
     border: none;
-    padding: 12px 28px;
-    font-size: 1.05rem;
+    padding: 10px 20px;
+    font-size: 0.95rem;
     font-weight: 600;
     border-radius: 60px;
     cursor: pointer;
     transition: all 0.25s ease;
+    color: #2a5a4c;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
 }
 
 .cat-btn.active {
     background: #1c7e6b;
     color: white;
+    box-shadow: 0 8px 18px -6px rgba(28,126,107,0.4);
+}
+
+.cat-btn:hover:not(.active) {
+    background: #e1eae6;
+    transform: translateY(-2px);
+}
+/* ========== REPLACE THE SECTION ABOVE ========== */
+
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+    .category-tabs {
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .cat-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        flex: 0 0 auto;
+    }
+    
+    .cat-btn:first-child {
+        padding: 8px 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    .category-tabs {
+        gap: 8px;
+    }
+    
+    .cat-btn {
+        padding: 7px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+.result-stats {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    padding-left: 6px;
+    font-weight: 500;
+    color: #3c6b5d;
+    border-left: 4px solid #2c9c86;
 }
 
 .cards-grid {
@@ -104,33 +157,84 @@ body {
 .card {
     background: white;
     border-radius: 28px;
-    padding: 20px;
+    overflow: hidden;
     box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
     transition: all 0.25s ease;
+    border: 1px solid #ddebe6;
 }
+
+.card-header {
+    padding: 18px 20px 12px 20px;
+    border-bottom: 2px solid #eef5f2;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.category-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 40px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #f0f6f3;
+    color: #2a6b5a;
+}
+
+.hospital-badge { background: #ffe8e0; color: #b4461c; }
+.school-badge { background: #e0f0fe; color: #1e6f8f; }
+.auto-badge { background: #e6f2e8; color: #2d7a4b; }
 
 .card-title {
     font-size: 1.45rem;
     font-weight: 700;
+    padding: 0 20px;
     margin: 12px 0 8px;
     color: #1a3b32;
+}
+
+.card-detail {
+    padding: 0 20px 16px;
+    color: #4d6a60;
+    font-size: 0.95rem;
 }
 
 .detail-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 10px 0;
+    margin: 8px 0;
+}
+
+.detail-icon {
+    font-size: 1rem;
+    min-width: 24px;
+    color: #2c9c86;
 }
 
 .no-results {
     text-align: center;
     padding: 64px 20px;
+    background: #fefefe;
+    border-radius: 48px;
     grid-column: 1 / -1;
     color: #709187;
 }
 
+footer {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #7b9b8f;
+    border-top: 1px solid #cee2da;
+    padding-top: 28px;
+}
+
 @media (max-width: 640px) {
+    body { padding: 16px; }
     .site-title { font-size: 2rem; }
-    .search-input { font-size: 1rem; }
+    .search-section { border-radius: 40px; padding: 4px 4px 4px 18px; }
+    .search-input { font-size: 1rem; padding: 12px 0; }
+    .card-title { font-size: 1.25rem; }
 }
