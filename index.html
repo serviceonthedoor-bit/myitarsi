@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>My Itarsi | Local Directory of Hospitals, Schools & Auto Services</title>
+    <meta name="description" content="Complete directory of hospitals, schools, and auto services in Itarsi, Madhya Pradesh.">
+    <meta name="copyright" content="My Itarsi Directory">
+    
+    <!-- Tailwind CSS + Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        /* STRONG protection - prevent text selection on cards */
+        .card, .card * {
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+        }
+        
+        /* Allow selection ONLY on search input */
+        input, button {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+        }
+        
+        /* Watermark on cards */
+        .card {
+            position: relative;
+        }
+        
+        .card::after {
+            content: "© My Itarsi";
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 9px;
+            color: rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+            font-weight: 500;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e7e6c;
+            border-radius: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'itarsi-primary': '#0b5e4a',
+                        'itarsi-secondary': '#1e7e6c',
+                        'itarsi-accent': '#2c9c86',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
+    
+    <!-- Animated Background -->
+    <div class="fixed inset-0 overflow-hidden -z-10">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse delay-1000"></div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-7xl relative">
+        
+        <!-- Header -->
+        <div class="text-center mb-8 animate-fade-in">
+            <div class="inline-flex items-center justify-center mb-4">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-itarsi-primary to-itarsi-secondary rounded-2xl blur-xl opacity-50"></div>
+                    <div class="relative bg-gradient-to-r from-itarsi-primary to-itarsi-secondary rounded-2xl p-4 shadow-2xl">
+                        <div class="flex items-center gap-3">
+                            <div class="text-4xl">🏙️</div>
+                            <div>
+                                <h1 class="text-3xl font-black text-white tracking-tight">My Itarsi</h1>
+                                <p class="text-emerald-100 text-xs">Local Directory</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-gray-600 mt-3 text-lg flex items-center justify-center gap-2">
+                <i class="fas fa-map-marker-alt text-itarsi-primary"></i>
+                Hospitals · Schools · Auto Availability
+            </p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="max-w-3xl mx-auto mb-8 animate-fade-in">
+            <div class="relative group">
+                <div class="absolute inset-0 bg-gradient-to-r from-itarsi-primary to-itarsi-secondary rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+                <div class="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                    <div class="flex items-center p-2">
+                        <i class="fas fa-search text-gray-400 ml-4 text-xl"></i>
+                        <input type="text" id="searchInput" 
+                               class="flex-1 p-4 outline-none text-gray-700 placeholder-gray-400 text-lg"
+                               placeholder="Search hospitals, schools, or auto services..."
+                               autocomplete="off">
+                        <button id="clearSearchBtn" 
+                                class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-6 py-2 rounded-xl transition duration-200 font-medium">
+                            <i class="fas fa-times mr-2"></i>Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="flex flex-wrap justify-center gap-3 mb-10">
+            <button data-cat="all" class="cat-btn-active bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                <i class="fas fa-th-large"></i> All
+            </button>
+            <button data-cat="hospital" class="cat-btn bg-white text-gray-700 hover:bg-red-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                <i class="fas fa-hospital text-red-500"></i> Hospitals
+            </button>
+            <button data-cat="school" class="cat-btn bg-white text-gray-700 hover:bg-blue-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                <i class="fas fa-graduation-cap text-blue-500"></i> Schools
+            </button>
+            <button data-cat="auto" class="cat-btn bg-white text-gray-700 hover:bg-green-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                <i class="fas fa-car text-green-500"></i> Auto Services
+            </button>
+        </div>
+
+        <!-- Results Stats -->
+        <div id="resultStats" class="text-center text-gray-500 mb-6 font-medium">
+            <i class="fas fa-spinner fa-spin mr-2"></i> Loading services from Itarsi...
+        </div>
+
+        <!-- Cards Grid -->
+        <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center">
+            <p class="text-gray-500 text-sm">🌿 My Itarsi — connecting you with essential local services</p>
+            <p class="text-gray-400 text-xs mt-2">© 2026 My Itarsi Directory | All Rights Reserved</p>
+            <p class="text-gray-400 text-xs mt-1">Data curated with ❤️ for Itarsi community</p>
+        </footer>
+    </div>
+
+    <script>
+        // ========== STRONG COPY PROTECTION ==========
+        
+        // 1. Disable right-click entirely (including on images)
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // 2. Disable keyboard copy shortcuts (Ctrl+C, Ctrl+X)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'a')) {
+                e.preventDefault();
+                showAlert();
+                return false;
+            }
+            // Also block F12 (DevTools)
+            if (e.key === 'F12') {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // 3. Disable copy, cut, paste events
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            showAlert();
+            return false;
+        });
+        
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+            showAlert();
+            return false;
+        });
+        
+        // 4. Show warning alert
+        function showAlert() {
+            alert('📋 Content is protected.\n\nInformation on My Itarsi is curated for public benefit.\nFor inquiries or data requests, please contact us.');
+        }
+        
+        // 5. Disable drag and drop of images/text
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // 6. Warn if DevTools is opened (optional)
+        let devToolsOpen = false;
+        setInterval(function() {
+            const before = new Date().getTime();
+            debugger;
+            const after = new Date().getTime();
+            if (after - before > 100 && !devToolsOpen) {
+                devToolsOpen = true;
+                console.log('%c📋 My Itarsi Directory - Content Protected', 'color: #1e7e6c; font-size: 16px;');
+                console.log('%cFor data inquiries, please contact us.', 'color: gray;');
+            }
+        }, 5000);
+        
+        // ========== GOOGLE SHEETS CONNECTION ==========
+        // 🔴 REPLACE THIS WITH YOUR ACTUAL APPS SCRIPT URL
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI54-1K2KfJ_XF9opzuajfWJSnxlPXjxV6letT7z3syA8l6khIaypcAGNfqKp4aXmP/exec';
+        
+        let placesData = [];
+        let activeCategory = 'all';
+        let searchQuery = '';
+        
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearSearchBtn');
+        const categoryBtns = document.querySelectorAll('.cat-btn');
+        const cardsContainer = document.getElementById('cardsContainer');
+        const resultStats = document.getElementById('resultStats');
+        
+        async function fetchDataFromSheets() {
+            try {
+                resultStats.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Syncing with Google Sheets...';
+                
+                if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+                    throw new Error('Please update the APPS_SCRIPT_URL with your Google Apps Script URL');
+                }
+                
+                const response = await fetch(APPS_SCRIPT_URL);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                if (data[0] && data[0].error) throw new Error(data[0].error);
+                
+                placesData = data.filter(item => item.name && item.category);
+                console.log(`✅ Loaded ${placesData.length} records`);
+                
+                resultStats.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> ${placesData.length} services available in Itarsi`;
+                renderCards();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                resultStats.innerHTML = `<i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i> ${error.message}`;
+                loadFallbackData();
+                renderCards();
+            }
+        }
+        
+        function loadFallbackData() {
+            placesData = [
+                { name: "Itarsi District Hospital", category: "hospital", address: "Civil Lines, Itarsi", contact: "07572 241001", extra: "24/7 Emergency", typeLabel: "Govt. Hospital" },
+                { name: "Delhi Public School Itarsi", category: "school", address: "Junnardeo Road, Itarsi", contact: "07572 288101", extra: "CBSE Curriculum", typeLabel: "CBSE School" },
+                { name: "City Auto Service", category: "auto", address: "Railway Station", contact: "99778 66552", extra: "24x7 Available", typeLabel: "Prepaid Auto" },
+            ];
+        }
+        
+        function renderCards() {
+            let filtered = placesData.filter(item => {
+                let itemCategory = (item.category || '').toLowerCase().trim();
+                let activeCat = activeCategory.toLowerCase();
+                if (activeCat !== 'all' && itemCategory !== activeCat) return false;
+                
+                if (searchQuery.trim()) {
+                    const query = searchQuery.toLowerCase();
+                    return (item.name || '').toLowerCase().includes(query) ||
+                           (item.address || '').toLowerCase().includes(query) ||
+                           (item.contact || '').toLowerCase().includes(query);
+                }
+                return true;
+            });
+            
+            const categoryNames = { all: 'all services', hospital: 'hospitals', school: 'schools', auto: 'auto services' };
+            resultStats.innerHTML = `<i class="fas fa-building mr-2 text-itarsi-primary"></i> Showing ${filtered.length} results in ${categoryNames[activeCategory]} ${searchQuery ? `for "${searchQuery}"` : ''}`;
+            
+            if (filtered.length === 0) {
+                cardsContainer.innerHTML = `<div class="col-span-full text-center py-16">
+                    <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-500">No results found.</p>
+                </div>`;
+                return;
+            }
+            
+            cardsContainer.innerHTML = filtered.map(item => {
+                const config = {
+                    hospital: { icon: 'fas fa-hospital', color: 'red', bg: 'bg-red-50' },
+                    school: { icon: 'fas fa-graduation-cap', color: 'blue', bg: 'bg-blue-50' },
+                    auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-50' }
+                };
+                const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-50' };
+                
+                return `
+                    <div class="card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden border border-gray-100">
+                        <div class="h-2 bg-gradient-to-r from-${c.color}-400 to-${c.color}-600"></div>
+                        <div class="p-6">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 ${c.bg} rounded-xl flex items-center justify-center">
+                                        <i class="${c.icon} text-${c.color}-500 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-xl text-gray-800">${escapeHtml(item.name)}</h3>
+                                        <span class="text-xs text-gray-400 uppercase">${escapeHtml(item.category)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-2 text-gray-600">
+                                ${item.address ? `<div class="flex gap-2 text-sm"><i class="fas fa-map-marker-alt text-${c.color}-500"></i> ${escapeHtml(item.address)}</div>` : ''}
+                                ${item.contact ? `<div class="flex gap-2 text-sm"><i class="fas fa-phone-alt text-${c.color}-500"></i> ${escapeHtml(item.contact)}</div>` : ''}
+                                ${item.extra ? `<div class="flex gap-2 text-sm"><i class="fas fa-info-circle text-${c.color}-500"></i> ${escapeHtml(item.extra)}</div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        function setActiveCategory(category) {
+            activeCategory = category;
+            document.querySelectorAll('.cat-btn, .cat-btn-active').forEach(btn => {
+                const btnCat = btn.getAttribute('data-cat');
+                if (btnCat === category) {
+                    btn.className = 'bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                } else {
+                    btn.className = 'bg-white text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                }
+            });
+            renderCards();
+        }
+        
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => setActiveCategory(btn.getAttribute('data-cat')));
+        });
+        
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderCards();
+        });
+        
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchQuery = '';
+            renderCards();
+        });
+        
+        fetchDataFromSheets();
+    </script>
+</body>
+</html>
