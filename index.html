@@ -136,7 +136,7 @@
 
         <!-- Category Tabs -->
         <div class="flex flex-wrap justify-center gap-3 mb-10">
-            <button data-cat="all" class="cat-btn-active bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2">
+            <button data-cat="all" class="cat-btn bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2">
                 <i class="fas fa-th-large"></i> All
             </button>
             <button data-cat="hospital" class="cat-btn bg-white text-gray-700 hover:bg-red-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2">
@@ -236,9 +236,11 @@
         
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearSearchBtn');
-        const categoryBtns = document.querySelectorAll('.cat-btn');
         const cardsContainer = document.getElementById('cardsContainer');
         const resultStats = document.getElementById('resultStats');
+        
+        // Get all category buttons (they all have class 'cat-btn' now)
+        const categoryBtns = document.querySelectorAll('.cat-btn');
         
         async function fetchDataFromSheets() {
             try {
@@ -262,7 +264,7 @@
                 
             } catch (error) {
                 console.error('Error:', error);
-                resultStats.innerHTML = `<i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i> ${error.message}`;
+                resultStats.innerHTML = `<i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i> Using fallback data: ${error.message}`;
                 loadFallbackData();
                 renderCards();
             }
@@ -271,47 +273,60 @@
         function loadFallbackData() {
             placesData = [
                 { name: "Itarsi District Hospital", category: "hospital", address: "Civil Lines, Itarsi", contact: "07572 241001", extra: "24/7 Emergency", typeLabel: "Govt. Hospital" },
+                { name: "City Hospital & Research Centre", category: "hospital", address: "Junnardeo Road, Itarsi", contact: "07572 245678", extra: "Multi-speciality", typeLabel: "Private Hospital" },
                 { name: "Delhi Public School Itarsi", category: "school", address: "Junnardeo Road, Itarsi", contact: "07572 288101", extra: "CBSE Curriculum", typeLabel: "CBSE School" },
-                { name: "City Auto Service", category: "auto", address: "Railway Station", contact: "99778 66552", extra: "24x7 Available", typeLabel: "Prepaid Auto" },
+                { name: "St. Mary's Convent School", category: "school", address: "Civil Lines, Itarsi", contact: "07572 241234", extra: "ICSE Board", typeLabel: "Convent School" },
+                { name: "City Auto Service", category: "auto", address: "Railway Station Itarsi", contact: "99778 66552", extra: "24x7 Available", typeLabel: "Prepaid Auto" },
+                { name: "Itarsi Auto Stand", category: "auto", address: "Bus Stand Area", contact: "99887 77665", extra: "All routes covered", typeLabel: "Auto Rickshaw" }
             ];
+            resultStats.innerHTML = `<i class="fas fa-database text-blue-500 mr-2"></i> Showing ${placesData.length} demo services`;
         }
         
         function renderCards() {
             let filtered = placesData.filter(item => {
+                // Filter by category
                 let itemCategory = (item.category || '').toLowerCase().trim();
                 let activeCat = activeCategory.toLowerCase();
                 if (activeCat !== 'all' && itemCategory !== activeCat) return false;
                 
+                // Filter by search query
                 if (searchQuery.trim()) {
                     const query = searchQuery.toLowerCase();
                     return (item.name || '').toLowerCase().includes(query) ||
                            (item.address || '').toLowerCase().includes(query) ||
-                           (item.contact || '').toLowerCase().includes(query);
+                           (item.contact || '').toLowerCase().includes(query) ||
+                           (item.extra || '').toLowerCase().includes(query);
                 }
                 return true;
             });
             
+            // Update stats
             const categoryNames = { all: 'all services', hospital: 'hospitals', school: 'schools', auto: 'auto services' };
-            resultStats.innerHTML = `<i class="fas fa-building mr-2 text-itarsi-primary"></i> Showing ${filtered.length} results in ${categoryNames[activeCategory]} ${searchQuery ? `for "${searchQuery}"` : ''}`;
+            if (searchQuery) {
+                resultStats.innerHTML = `<i class="fas fa-search mr-2 text-itarsi-primary"></i> Found ${filtered.length} ${categoryNames[activeCategory]} matching "${searchQuery}"`;
+            } else {
+                resultStats.innerHTML = `<i class="fas fa-building mr-2 text-itarsi-primary"></i> Showing ${filtered.length} ${categoryNames[activeCategory]}`;
+            }
             
             if (filtered.length === 0) {
                 cardsContainer.innerHTML = `<div class="col-span-full text-center py-16">
                     <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
-                    <p class="text-gray-500">No results found.</p>
+                    <p class="text-gray-500 text-lg">No results found.</p>
+                    <p class="text-gray-400 text-sm mt-2">Try adjusting your search or category filter</p>
                 </div>`;
                 return;
             }
             
             cardsContainer.innerHTML = filtered.map(item => {
                 const config = {
-                    hospital: { icon: 'fas fa-hospital', color: 'red', bg: 'bg-red-50' },
-                    school: { icon: 'fas fa-graduation-cap', color: 'blue', bg: 'bg-blue-50' },
-                    auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-50' }
+                    hospital: { icon: 'fas fa-hospital', color: 'red', bg: 'bg-red-50', text: 'text-red-600' },
+                    school: { icon: 'fas fa-graduation-cap', color: 'blue', bg: 'bg-blue-50', text: 'text-blue-600' },
+                    auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-50', text: 'text-green-600' }
                 };
-                const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-50' };
+                const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-50', text: 'text-gray-600' };
                 
                 return `
-                    <div class="card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden border border-gray-100">
+                    <div class="card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden border border-gray-100 animate-fade-in">
                         <div class="h-2 bg-gradient-to-r from-${c.color}-400 to-${c.color}-600"></div>
                         <div class="p-6">
                             <div class="flex items-start justify-between mb-4">
@@ -326,9 +341,9 @@
                                 </div>
                             </div>
                             <div class="space-y-2 text-gray-600">
-                                ${item.address ? `<div class="flex gap-2 text-sm"><i class="fas fa-map-marker-alt text-${c.color}-500"></i> ${escapeHtml(item.address)}</div>` : ''}
-                                ${item.contact ? `<div class="flex gap-2 text-sm"><i class="fas fa-phone-alt text-${c.color}-500"></i> ${escapeHtml(item.contact)}</div>` : ''}
-                                ${item.extra ? `<div class="flex gap-2 text-sm"><i class="fas fa-info-circle text-${c.color}-500"></i> ${escapeHtml(item.extra)}</div>` : ''}
+                                ${item.address ? `<div class="flex gap-2 text-sm"><i class="fas fa-map-marker-alt text-${c.color}-500 mt-0.5"></i> <span>${escapeHtml(item.address)}</span></div>` : ''}
+                                ${item.contact ? `<div class="flex gap-2 text-sm"><i class="fas fa-phone-alt text-${c.color}-500 mt-0.5"></i> <span class="font-mono">${escapeHtml(item.contact)}</span></div>` : ''}
+                                ${item.extra ? `<div class="flex gap-2 text-sm"><i class="fas fa-info-circle text-${c.color}-500 mt-0.5"></i> <span>${escapeHtml(item.extra)}</span></div>` : ''}
                             </div>
                         </div>
                     </div>
@@ -347,29 +362,53 @@
         }
         
         function setActiveCategory(category) {
-    activeCategory = category;
-    
-    // Update all category buttons
-    const allButtons = document.querySelectorAll('.cat-btn, .cat-btn-active');
-    allButtons.forEach(btn => {
-        const btnCat = btn.getAttribute('data-cat');
-        if (btnCat === category) {
-            // Set active style
-            btn.className = 'bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2';
-            // Also ensure the "All" button gets proper styling when selected
-            if (btnCat === 'all') {
-                btn.classList.add('cat-btn-active');
-            }
-        } else {
-            // Set inactive style
-            btn.className = 'bg-white text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
-            // Remove any leftover active classes
-            btn.classList.remove('cat-btn-active');
+            activeCategory = category;
+            
+            // Update all category buttons styling
+            categoryBtns.forEach(btn => {
+                const btnCat = btn.getAttribute('data-cat');
+                if (btnCat === category) {
+                    // Active button style
+                    btn.className = 'bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                } else {
+                    // Inactive button style based on category
+                    if (btnCat === 'hospital') {
+                        btn.className = 'bg-white text-gray-700 hover:bg-red-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                    } else if (btnCat === 'school') {
+                        btn.className = 'bg-white text-gray-700 hover:bg-blue-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                    } else if (btnCat === 'auto') {
+                        btn.className = 'bg-white text-gray-700 hover:bg-green-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                    } else {
+                        btn.className = 'bg-white text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                    }
+                }
+            });
+            
+            renderCards();
         }
-    });
-    
-    renderCards();
-}        
+        
+        // Add event listeners to category buttons
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const category = this.getAttribute('data-cat');
+                setActiveCategory(category);
+            });
+        });
+        
+        // Search functionality
+        searchInput.addEventListener('input', function(e) {
+            searchQuery = e.target.value;
+            renderCards();
+        });
+        
+        // Clear search button
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            searchQuery = '';
+            renderCards();
+        });
+        
+        // Load data on page load
         fetchDataFromSheets();
     </script>
 </body>
