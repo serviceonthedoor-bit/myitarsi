@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, 'Segoe UI', 'Inter', 'Poppins', sans-serif;
+}
+
+body {
+    background: #f4f9ff;
+    color: #1a2c3e;
+    line-height: 1.4;
+    padding: 24px 20px 60px;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.site-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.site-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0b5e4a, #1e7e6c, #2c9c86);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 8px;
+}
+
+.tagline {
+    color: #2c6e5c;
+    font-weight: 500;
+    background: #e0f0ec;
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 40px;
+    font-size: 0.9rem;
+}
+
+.search-section {
+    background: white;
+    border-radius: 60px;
+    box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.1);
+    padding: 6px 6px 6px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 36px;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1.2rem;
+    padding: 16px 0;
+    background: transparent;
+}
+
+.clear-search {
+    background: #eef3f1;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-bottom: 36px;
+}
+
+.cat-btn {
+    background: #eef2f0;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.cat-btn.active {
+    background: #1c7e6b;
+    color: white;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+}
+
+.card {
+    background: white;
+    border-radius: 28px;
+    padding: 20px;
+    box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
+    transition: all 0.25s ease;
+}
+
+.card-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 12px 0 8px;
+    color: #1a3b32;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.no-results {
+    text-align: center;
+    padding: 64px 20px;
+    grid-column: 1 / -1;
+    color: #709187;
+}
+
+@media (max-width: 640px) {
+    .site-title { font-size: 2rem; }
+    .search-input { font-size: 1rem; }
+}
