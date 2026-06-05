@@ -76,6 +76,20 @@
         @keyframes shine {
             to { background-position-x: -200%; }
         }
+        
+        /* Subtle loading indicator */
+        .loading-dot {
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: #1e7e6c;
+            animation: pulse 1.2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
     </style>
     
     <script>
@@ -160,13 +174,18 @@
             </button>
         </div>
 
-        <!-- Results Stats -->
+        <!-- Results Stats - Initially empty/hidden -->
         <div id="resultStats" class="text-center text-gray-500 mb-6 font-medium">
-            <i class="fas fa-spinner fa-spin mr-2"></i> Loading services from Itarsi...
+            <!-- Will be populated after load -->
         </div>
 
-        <!-- Cards Grid -->
-        <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <!-- Cards Grid with skeleton loading -->
+        <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Skeleton loaders -->
+            <div class="skeleton h-64 rounded-2xl"></div>
+            <div class="skeleton h-64 rounded-2xl hidden md:block"></div>
+            <div class="skeleton h-64 rounded-2xl hidden lg:block"></div>
+        </div>
 
         <!-- Footer -->
         <footer class="mt-16 pt-8 border-t border-gray-200 text-center">
@@ -258,13 +277,15 @@
             const cached = getCachedData();
             if (cached && cached.length > 0) {
                 placesData = cached;
-                resultStats.innerHTML = `<i class="fas fa-database text-green-500 mr-2"></i> ${placesData.length} services available (cached)`;
+                // No message, just show the data
+                resultStats.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> ${placesData.length} services available`;
                 renderCards();
                 return;
             }
             
             try {
-                resultStats.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Syncing with Google Sheets...';
+                // Show skeleton loaders (already visible in HTML)
+                // No text message about syncing
                 
                 // Timeout for slow network
                 const controller = new AbortController();
@@ -290,7 +311,8 @@
                 if (placesData.length === 0) {
                     loadFallbackData();
                 }
-                resultStats.innerHTML = `<i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i> Using offline data - ${error.message}`;
+                // Subtle error message (not too intrusive)
+                resultStats.innerHTML = `<i class="fas fa-cloud-arrow-down text-gray-400 mr-2"></i> ${placesData.length} services available`;
                 renderCards();
             }
         }
