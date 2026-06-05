@@ -347,33 +347,29 @@
         }
         
         function setActiveCategory(category) {
-            activeCategory = category;
-            document.querySelectorAll('.cat-btn, .cat-btn-active').forEach(btn => {
-                const btnCat = btn.getAttribute('data-cat');
-                if (btnCat === category) {
-                    btn.className = 'bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2';
-                } else {
-                    btn.className = 'bg-white text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
-                }
-            });
-            renderCards();
+    activeCategory = category;
+    
+    // Update all category buttons
+    const allButtons = document.querySelectorAll('.cat-btn, .cat-btn-active');
+    allButtons.forEach(btn => {
+        const btnCat = btn.getAttribute('data-cat');
+        if (btnCat === category) {
+            // Set active style
+            btn.className = 'bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2';
+            // Also ensure the "All" button gets proper styling when selected
+            if (btnCat === 'all') {
+                btn.classList.add('cat-btn-active');
+            }
+        } else {
+            // Set inactive style
+            btn.className = 'bg-white text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+            // Remove any leftover active classes
+            btn.classList.remove('cat-btn-active');
         }
-        
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', () => setActiveCategory(btn.getAttribute('data-cat')));
-        });
-        
-        searchInput.addEventListener('input', (e) => {
-            searchQuery = e.target.value;
-            renderCards();
-        });
-        
-        clearBtn.addEventListener('click', () => {
-            searchInput.value = '';
-            searchQuery = '';
-            renderCards();
-        });
-        
+    });
+    
+    renderCards();
+}        
         fetchDataFromSheets();
     </script>
 </body>
