@@ -66,6 +66,16 @@
         .animate-fade-in {
             animation: fadeIn 0.4s ease-out;
         }
+        
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+            background-size: 200% 100%;
+            animation: 1.5s shine linear infinite;
+        }
+        @keyframes shine {
+            to { background-position-x: -200%; }
+        }
     </style>
     
     <script>
@@ -167,29 +177,24 @@
     </div>
 
     <script>
-        // ========== STRONG COPY PROTECTION ==========
-        
-        // 1. Disable right-click entirely (including on images)
+        // ========== COPY PROTECTION ==========
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
             return false;
         });
         
-        // 2. Disable keyboard copy shortcuts (Ctrl+C, Ctrl+X)
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'a')) {
                 e.preventDefault();
                 showAlert();
                 return false;
             }
-            // Also block F12 (DevTools)
             if (e.key === 'F12') {
                 e.preventDefault();
                 return false;
             }
         });
         
-        // 3. Disable copy, cut, paste events
         document.addEventListener('copy', function(e) {
             e.preventDefault();
             showAlert();
@@ -202,33 +207,19 @@
             return false;
         });
         
-        // 4. Show warning alert
         function showAlert() {
             alert('📋 Content is protected.\n\nInformation on My Itarsi is curated for public benefit.\nFor inquiries or data requests, please contact us.');
         }
         
-        // 5. Disable drag and drop of images/text
         document.addEventListener('dragstart', function(e) {
             e.preventDefault();
             return false;
         });
         
-        // 6. Warn if DevTools is opened (optional)
-        let devToolsOpen = false;
-        setInterval(function() {
-            const before = new Date().getTime();
-            debugger;
-            const after = new Date().getTime();
-            if (after - before > 100 && !devToolsOpen) {
-                devToolsOpen = true;
-                console.log('%c📋 My Itarsi Directory - Content Protected', 'color: #1e7e6c; font-size: 16px;');
-                console.log('%cFor data inquiries, please contact us.', 'color: gray;');
-            }
-        }, 5000);
-        
-        // ========== GOOGLE SHEETS CONNECTION ==========
-        // 🔴 REPLACE THIS WITH YOUR ACTUAL APPS SCRIPT URL
+        // ========== GOOGLE SHEETS CONNECTION WITH CACHE ==========
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI54-1K2KfJ_XF9opzuajfWJSnxlPXjxV6letT7z3syA8l6khIaypcAGNfqKp4aXmP/exec';
+        const CACHE_KEY = 'myitarsi_data';
+        const CACHE_DURATION = 60 * 60 * 1000; // 1 hour cache
         
         let placesData = [];
         let activeCategory = 'all';
@@ -238,34 +229,68 @@
         const clearBtn = document.getElementById('clearSearchBtn');
         const cardsContainer = document.getElementById('cardsContainer');
         const resultStats = document.getElementById('resultStats');
-        
-        // Get all category buttons (they all have class 'cat-btn' now)
         const categoryBtns = document.querySelectorAll('.cat-btn');
         
+        // Cache functions
+        function getCachedData() {
+            try {
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (!cached) return null;
+                const { data, timestamp } = JSON.parse(cached);
+                if (Date.now() - timestamp < CACHE_DURATION) {
+                    return data;
+                }
+                return null;
+            } catch(e) { return null; }
+        }
+        
+        function setCachedData(data) {
+            try {
+                localStorage.setItem(CACHE_KEY, JSON.stringify({
+                    data: data,
+                    timestamp: Date.now()
+                }));
+            } catch(e) {}
+        }
+        
         async function fetchDataFromSheets() {
+            // Check cache first
+            const cached = getCachedData();
+            if (cached && cached.length > 0) {
+                placesData = cached;
+                resultStats.innerHTML = `<i class="fas fa-database text-green-500 mr-2"></i> ${placesData.length} services available (cached)`;
+                renderCards();
+                return;
+            }
+            
             try {
                 resultStats.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Syncing with Google Sheets...';
                 
-                if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-                    throw new Error('Please update the APPS_SCRIPT_URL with your Google Apps Script URL');
-                }
+                // Timeout for slow network
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
                 
-                const response = await fetch(APPS_SCRIPT_URL);
+                const response = await fetch(APPS_SCRIPT_URL, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
                 const data = await response.json();
                 if (data[0] && data[0].error) throw new Error(data[0].error);
                 
                 placesData = data.filter(item => item.name && item.category);
-                console.log(`✅ Loaded ${placesData.length} records`);
+                setCachedData(placesData);
                 
+                console.log(`✅ Loaded ${placesData.length} records`);
                 resultStats.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> ${placesData.length} services available in Itarsi`;
                 renderCards();
                 
             } catch (error) {
                 console.error('Error:', error);
-                resultStats.innerHTML = `<i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i> Using fallback data: ${error.message}`;
-                loadFallbackData();
+                if (placesData.length === 0) {
+                    loadFallbackData();
+                }
+                resultStats.innerHTML = `<i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i> Using offline data - ${error.message}`;
                 renderCards();
             }
         }
@@ -279,17 +304,14 @@
                 { name: "City Auto Service", category: "auto", address: "Railway Station Itarsi", contact: "99778 66552", extra: "24x7 Available", typeLabel: "Prepaid Auto" },
                 { name: "Itarsi Auto Stand", category: "auto", address: "Bus Stand Area", contact: "99887 77665", extra: "All routes covered", typeLabel: "Auto Rickshaw" }
             ];
-            resultStats.innerHTML = `<i class="fas fa-database text-blue-500 mr-2"></i> Showing ${placesData.length} demo services`;
         }
         
         function renderCards() {
             let filtered = placesData.filter(item => {
-                // Filter by category
                 let itemCategory = (item.category || '').toLowerCase().trim();
                 let activeCat = activeCategory.toLowerCase();
                 if (activeCat !== 'all' && itemCategory !== activeCat) return false;
                 
-                // Filter by search query
                 if (searchQuery.trim()) {
                     const query = searchQuery.toLowerCase();
                     return (item.name || '').toLowerCase().includes(query) ||
@@ -300,7 +322,6 @@
                 return true;
             });
             
-            // Update stats
             const categoryNames = { all: 'all services', hospital: 'hospitals', school: 'schools', auto: 'auto services' };
             if (searchQuery) {
                 resultStats.innerHTML = `<i class="fas fa-search mr-2 text-itarsi-primary"></i> Found ${filtered.length} ${categoryNames[activeCategory]} matching "${searchQuery}"`;
@@ -311,7 +332,7 @@
             if (filtered.length === 0) {
                 cardsContainer.innerHTML = `<div class="col-span-full text-center py-16">
                     <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
-                    <p class="text-gray-500 text-lg">No results found.</p>
+                    <p class="text-gray-500">No results found.</p>
                     <p class="text-gray-400 text-sm mt-2">Try adjusting your search or category filter</p>
                 </div>`;
                 return;
@@ -319,11 +340,11 @@
             
             cardsContainer.innerHTML = filtered.map(item => {
                 const config = {
-                    hospital: { icon: 'fas fa-hospital', color: 'red', bg: 'bg-red-50', text: 'text-red-600' },
-                    school: { icon: 'fas fa-graduation-cap', color: 'blue', bg: 'bg-blue-50', text: 'text-blue-600' },
-                    auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-50', text: 'text-green-600' }
+                    hospital: { icon: 'fas fa-hospital', color: 'red', bg: 'bg-red-50' },
+                    school: { icon: 'fas fa-graduation-cap', color: 'blue', bg: 'bg-blue-50' },
+                    auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-50' }
                 };
-                const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-50', text: 'text-gray-600' };
+                const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-50' };
                 
                 return `
                     <div class="card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden border border-gray-100 animate-fade-in">
@@ -364,14 +385,11 @@
         function setActiveCategory(category) {
             activeCategory = category;
             
-            // Update all category buttons styling
             categoryBtns.forEach(btn => {
                 const btnCat = btn.getAttribute('data-cat');
                 if (btnCat === category) {
-                    // Active button style
                     btn.className = 'bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2';
                 } else {
-                    // Inactive button style based on category
                     if (btnCat === 'hospital') {
                         btn.className = 'bg-white text-gray-700 hover:bg-red-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
                     } else if (btnCat === 'school') {
@@ -387,7 +405,7 @@
             renderCards();
         }
         
-        // Add event listeners to category buttons
+        // Event Listeners
         categoryBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const category = this.getAttribute('data-cat');
@@ -395,20 +413,23 @@
             });
         });
         
-        // Search functionality
+        // Debounced search for better performance
+        let searchTimeout;
         searchInput.addEventListener('input', function(e) {
-            searchQuery = e.target.value;
-            renderCards();
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchQuery = e.target.value;
+                renderCards();
+            }, 300);
         });
         
-        // Clear search button
         clearBtn.addEventListener('click', function() {
             searchInput.value = '';
             searchQuery = '';
             renderCards();
         });
         
-        // Load data on page load
+        // Load data
         fetchDataFromSheets();
     </script>
 </body>
