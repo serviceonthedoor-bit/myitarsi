@@ -34,8 +34,8 @@
         }
         
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 30px -12px rgba(0, 0, 0, 0.2);
         }
         
         .card::after {
@@ -140,6 +140,153 @@
         @keyframes shine {
             to { background-position-x: -200%; }
         }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .carousel-slide {
+            flex: 0 0 100%;
+            padding: 0 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .carousel-slide {
+                flex: 0 0 33.333%;
+            }
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        
+        .carousel-btn:hover {
+            background: #0b5e4a;
+            color: white;
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .carousel-btn-prev {
+            left: -12px;
+        }
+        
+        .carousel-btn-next {
+            right: -12px;
+        }
+        
+        @media (max-width: 768px) {
+            .carousel-btn-prev {
+                left: 4px;
+            }
+            .carousel-btn-next {
+                right: 4px;
+            }
+        }
+        
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .carousel-dot.active {
+            width: 24px;
+            border-radius: 4px;
+            background: #0b5e4a;
+        }
+        
+        /* Card fade-in animation */
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card {
+            animation: cardFadeIn 0.3s ease-out forwards;
+        }
+        
+        /* City logo pulse effect */
+        @keyframes softPulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+        
+        .city-logo {
+            animation: softPulse 3s ease-in-out infinite;
+        }
+        
+        /* Reveal number button */
+        .reveal-number-btn {
+            background: linear-gradient(135deg, #0b5e4a 0%, #1e7e6c 100%);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .reveal-number-btn:hover {
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #0a4f3e 0%, #186b5b 100%);
+        }
+        
+        .reveal-number-btn i {
+            font-size: 10px;
+        }
+        
+        .revealed-number {
+            font-family: monospace;
+            font-weight: 600;
+            color: #0b5e4a;
+        }
+        
+        .number-hidden {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
     </style>
     
     <script>
@@ -164,28 +311,32 @@
         <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse delay-1000"></div>
     </div>
 
-    <div class="container mx-auto px-4 py-8 max-w-7xl relative">
+    <div class="container mx-auto px-4 py-6 max-w-7xl relative">
         
-        <!-- Header -->
-        <div class="text-center mb-8 animate-fade-in">
-            <div class="inline-flex items-center justify-center mb-4">
-                <div class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-itarsi-primary to-itarsi-secondary rounded-2xl blur-xl opacity-50"></div>
-                    <div class="relative bg-gradient-to-r from-itarsi-primary to-itarsi-secondary rounded-2xl p-4 shadow-2xl">
-                        <div class="flex items-center gap-3">
-                            <div class="text-4xl">🏙️</div>
-                            <div>
-                                <h1 class="text-3xl font-black text-white tracking-tight">My Itarsi</h1>
-                                <p class="text-emerald-100 text-xs">Local Directory</p>
-                            </div>
-                        </div>
+        <!-- Hero Section -->
+        <div class="relative rounded-2xl overflow-hidden mb-8 shadow-xl animate-fade-in">
+            <div class="absolute inset-0 bg-gradient-to-r from-itarsi-primary to-itarsi-secondary">
+            </div>
+            <div class="relative py-6 px-6 text-center text-white">
+                <!-- City Logo -->
+                <div class="flex justify-center mb-3">
+                    <div class="city-logo w-20 h-20 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-lg border border-white/30">
+                        <i class="fas fa-train text-4xl text-white"></i>
                     </div>
                 </div>
+                <div class="inline-block bg-white/20 backdrop-blur-md rounded-full px-3 py-1 text-xs mb-2 font-medium shadow-lg">
+                    🌟 Itarsi's Trusted Local Directory
+                </div>
+                <h1 class="text-3xl md:text-4xl font-black mb-1 tracking-tight">My Itarsi</h1>
+                <p class="text-sm md:text-base opacity-95 max-w-2xl mx-auto">Discover the best of Itarsi — hospitals, schools, auto services & real estate</p>
+                <p class="text-xs mt-2 opacity-90 flex items-center justify-center gap-2">
+                    <i class="fas fa-check-circle"></i> Local Listings 
+                    <span class="w-1 h-1 bg-white rounded-full"></span> 
+                    <i class="fas fa-sync-alt"></i> Updated Daily 
+                    <span class="w-1 h-1 bg-white rounded-full"></span> 
+                    <i class="fas fa-gem"></i> Completely Free
+                </p>
             </div>
-            <p class="text-gray-600 mt-3 text-lg flex items-center justify-center gap-2">
-                <i class="fas fa-map-marker-alt text-itarsi-primary"></i>
-                Hospitals · Schools · Auto · Real Estate
-            </p>
         </div>
 
         <!-- Search Bar -->
@@ -213,48 +364,91 @@
             </div>
         </div>
 
+        <!-- Featured Businesses Section with Carousel -->
+        <div id="featuredSection" class="mb-10" style="display: none;">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg md:text-xl font-bold text-gray-700 flex items-center gap-2">
+                    <i class="fas fa-crown text-yellow-500 text-xl"></i> 
+                    Featured Listings
+                </h2>
+                <span class="text-xs text-gray-400 bg-white/60 px-2 py-0.5 rounded-full">✨ Sponsored</span>
+            </div>
+            
+            <div class="carousel-container relative px-6 md:px-8">
+                <!-- Previous Button -->
+                <div class="carousel-btn carousel-btn-prev" id="carouselPrev">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </div>
+                
+                <!-- Carousel Track -->
+                <div class="overflow-hidden">
+                    <div id="carouselTrack" class="carousel-track">
+                        <!-- Featured items will be dynamically inserted here -->
+                    </div>
+                </div>
+                
+                <!-- Next Button -->
+                <div class="carousel-btn carousel-btn-next" id="carouselNext">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </div>
+            </div>
+            
+            <!-- Dot Indicators -->
+            <div id="carouselDots" class="carousel-dots"></div>
+        </div>
+
         <!-- Category Tabs -->
-        <div class="flex flex-wrap justify-center gap-3 mb-10">
-            <button data-cat="all" class="cat-btn bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2">
-                <i class="fas fa-th-large"></i> All
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+            <button data-cat="all" class="cat-btn bg-itarsi-primary text-white px-5 py-2 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+                <i class="fas fa-th-large text-xs"></i> All
             </button>
-            <button data-cat="hospital" class="cat-btn bg-white text-gray-700 hover:bg-red-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2">
-                <i class="fas fa-hospital text-red-500"></i> Hospitals
+            <button data-cat="hospital" class="cat-btn bg-white text-gray-700 hover:bg-red-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+                <i class="fas fa-hospital text-red-500 text-xs"></i> Hospitals
             </button>
-            <button data-cat="school" class="cat-btn bg-white text-gray-700 hover:bg-blue-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2">
-                <i class="fas fa-graduation-cap text-blue-500"></i> Schools
+            <button data-cat="school" class="cat-btn bg-white text-gray-700 hover:bg-blue-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+                <i class="fas fa-graduation-cap text-blue-500 text-xs"></i> Schools
             </button>
-            <button data-cat="auto" class="cat-btn bg-white text-gray-700 hover:bg-green-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2">
-                <i class="fas fa-car text-green-500"></i> Auto Services
+            <button data-cat="auto" class="cat-btn bg-white text-gray-700 hover:bg-green-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+                <i class="fas fa-car text-green-500 text-xs"></i> Auto Services
             </button>
-            <button data-cat="realestate" class="cat-btn bg-white text-gray-700 hover:bg-purple-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2">
-                <i class="fas fa-building text-purple-500"></i> Real Estate
+            <button data-cat="realestate" class="cat-btn bg-white text-gray-700 hover:bg-purple-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+                <i class="fas fa-building text-purple-500 text-xs"></i> Real Estate
             </button>
         </div>
 
         <!-- Results Stats -->
-        <div id="resultStats" class="text-center text-gray-500 mb-6 font-medium"></div>
+        <div id="resultStats" class="text-center text-gray-500 mb-5 font-medium text-sm"></div>
 
-        <!-- Cards Grid -->
-        <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="skeleton h-64 rounded-2xl"></div>
-            <div class="skeleton h-64 rounded-2xl hidden md:block"></div>
-            <div class="skeleton h-64 rounded-2xl hidden lg:block"></div>
+        <!-- Cards Grid (Regular listings ONLY - Featured items are EXCLUDED from here to avoid duplication) -->
+        <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="skeleton h-60 rounded-2xl"></div>
+            <div class="skeleton h-60 rounded-2xl hidden md:block"></div>
+            <div class="skeleton h-60 rounded-2xl hidden lg:block"></div>
         </div>
 
-        <!-- Footer -->
-        <footer class="mt-16 pt-8 border-t border-gray-200 text-center">
+        <!-- Footer with Legal Disclaimer -->
+        <footer class="mt-12 pt-6 border-t border-gray-200 text-center">
             <p class="text-gray-500 text-sm">🌿 My Itarsi — connecting you with essential local services</p>
             <p class="text-gray-400 text-xs mt-2">© 2026 My Itarsi Directory | All Rights Reserved</p>
             <p class="text-gray-400 text-xs mt-1">Click on any card for more details</p>
-			<!-- Disclaimer -->
-    		<p class="text-gray-400 text-[10px] mt-4 max-w-xl mx-auto">
-        	<i class="fas fa-info-circle mr-1"></i> 
-        	Disclaimer: Information is compiled from publicly available sources. 
-        	We do not guarantee accuracy or completeness. Site administrator assumes no liability for any errors or omissions. 
-        	Please verify independently before relying on any information.
-    		</p>
-		</footer>
+            
+            <!-- Legal Disclaimer -->
+            <div class="mt-4 pt-3 border-t border-gray-100 max-w-2xl mx-auto">
+                <p class="text-gray-400 text-[10px] leading-relaxed">
+                    <i class="fas fa-scale-balanced mr-1"></i> 
+                    Disclaimer: All information displayed on this directory is collected from publicly available sources, 
+                    including business listings, public records, and voluntary submissions. While we strive to keep 
+                    information accurate and up-to-date, we make no representations or warranties of any kind, express or implied, 
+                    about the completeness, accuracy, reliability, or availability of any information shown. 
+                    <strong class="font-semibold">My Itarsi Directory and its administrator assume no liability</strong> for errors, omissions, 
+                    or any actions taken based on this information. Users are advised to verify all details independently 
+                    before making decisions based on this directory.
+                </p>
+                <p class="text-gray-400 text-[9px] mt-2">
+                    For corrections or removal requests, please contact the site administrator.
+                </p>
+            </div>
+        </footer>
     </div>
 
     <!-- Modal Popup -->
@@ -263,7 +457,7 @@
             <div class="modal-close" onclick="closeModal()">
                 <i class="fas fa-times text-white text-sm"></i>
             </div>
-            <div id="modalBody" class="p-6">
+            <div id="modalBody" class="p-5">
                 <!-- Dynamic content will be inserted here -->
             </div>
         </div>
@@ -293,6 +487,11 @@
         let searchQuery = '';
         let isLoading = false;
         
+        // Carousel variables
+        let currentSlide = 0;
+        let totalItems = 0;
+        let slidesPerView = 1;
+        
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearSearchBtn');
         const refreshBtn = document.getElementById('refreshBtn');
@@ -300,11 +499,88 @@
         const resultStats = document.getElementById('resultStats');
         const categoryBtns = document.querySelectorAll('.cat-btn');
         const modal = document.getElementById('detailModal');
+        const featuredSection = document.getElementById('featuredSection');
+        const carouselTrack = document.getElementById('carouselTrack');
+        const carouselPrev = document.getElementById('carouselPrev');
+        const carouselNext = document.getElementById('carouselNext');
+        const carouselDots = document.getElementById('carouselDots');
         
-        // Cache functions
+        // ========== NUMBER HIDING SYSTEM ==========
+        // Track number reveals (for future analytics/monetization)
+        let numberRevealLog = [];
+        let revealCount = 0;
+        const MAX_REVEALS_PER_SESSION = 10;
+
+        function logNumberReveal(businessName, businessId) {
+            const revealEvent = {
+                business: businessName,
+                id: businessId,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent.substring(0, 100)
+            };
+            numberRevealLog.push(revealEvent);
+            
+            // Optional: Store in localStorage for later analysis
+            try {
+                let existingLogs = JSON.parse(localStorage.getItem('numberReveals_log') || '[]');
+                existingLogs.push(revealEvent);
+                // Keep last 500 logs only
+                if (existingLogs.length > 500) existingLogs.shift();
+                localStorage.setItem('numberReveals_log', JSON.stringify(existingLogs));
+            } catch(e) {}
+            
+            console.log('Number revealed for:', businessName); // Can remove in production
+        }
+
+        function generateNumberHTML(phoneNumber, businessName, businessId) {
+            if (!phoneNumber || phoneNumber.trim() === '') {
+                return '<span class="text-gray-400 text-xs">No contact info</span>';
+            }
+            
+            // Create a unique ID for this number element
+            const uniqueId = 'num_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+            
+            return `
+                <div id="${uniqueId}" class="number-hidden">
+                    <button class="reveal-number-btn" onclick="revealNumber('${uniqueId}', '${escapeHtml(phoneNumber)}', '${escapeHtml(businessName)}', '${businessId}')">
+                        <i class="fas fa-eye"></i> Tap to Reveal Number
+                    </button>
+                </div>
+            `;
+        }
+
+        function revealNumber(elementId, phoneNumber, businessName, businessId) {
+            if (revealCount >= MAX_REVEALS_PER_SESSION) {
+                alert(`⚠️ You've reached the limit of ${MAX_REVEALS_PER_SESSION} number reveals per session. Refresh the page to continue.`);
+                return;
+            }
+            
+            const container = document.getElementById(elementId);
+            if (container) {
+                container.innerHTML = `<span class="revealed-number"><i class="fas fa-phone-alt text-green-500 mr-1"></i> ${escapeHtml(phoneNumber)}</span>`;
+                logNumberReveal(businessName, businessId);
+                revealCount++;
+                
+                // Optional: Show remaining reveals
+                if (revealCount >= MAX_REVEALS_PER_SESSION - 3) {
+                    const remaining = MAX_REVEALS_PER_SESSION - revealCount;
+                    if (remaining > 0) {
+                        setTimeout(() => {
+                            const msg = document.createElement('div');
+                            msg.className = 'fixed bottom-4 right-4 bg-yellow-100 text-yellow-800 text-xs p-2 rounded-lg shadow-lg z-50 animate-fade-in';
+                            msg.innerHTML = `<i class="fas fa-info-circle mr-1"></i> You have ${remaining} reveal${remaining !== 1 ? 's' : ''} remaining this session.`;
+                            document.body.appendChild(msg);
+                            setTimeout(() => msg.remove(), 3000);
+                        }, 100);
+                    }
+                }
+            }
+        }
+        
+        // Cache functions - DISABLED for instant updates
         function getCachedData() {
-    		return null;  // Always fetch fresh data from Google Sheets
-	}
+            return null;
+        }
         
         function setCachedData(data) {
             try {
@@ -313,6 +589,122 @@
         }
         
         function clearCache() { localStorage.removeItem(CACHE_KEY); }
+        
+        // Check if an item is featured
+        function isFeatured(item) {
+            return item.featured && (item.featured.toLowerCase() === 'yes');
+        }
+        
+        // Update slides per view based on screen width
+        function updateSlidesPerView() {
+            slidesPerView = window.innerWidth >= 768 ? 3 : 1;
+            if (totalItems > 0) {
+                updateCarousel();
+            }
+        }
+        
+        // Update carousel position and dots
+        function updateCarousel() {
+            if (!carouselTrack) return;
+            const totalSlidesCount = Math.ceil(totalItems / slidesPerView);
+            if (currentSlide >= totalSlidesCount) currentSlide = Math.max(0, totalSlidesCount - 1);
+            
+            const slideWidth = 100 / slidesPerView;
+            const translateX = -(currentSlide * slideWidth);
+            carouselTrack.style.transform = `translateX(${translateX}%)`;
+            
+            // Update dots
+            if (carouselDots) {
+                carouselDots.innerHTML = '';
+                for (let i = 0; i < totalSlidesCount; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = `carousel-dot ${i === currentSlide ? 'active' : ''}`;
+                    dot.addEventListener('click', () => {
+                        currentSlide = i;
+                        updateCarousel();
+                    });
+                    carouselDots.appendChild(dot);
+                }
+            }
+        }
+        
+        // Navigate carousel
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateCarousel();
+            }
+        }
+        
+        function nextSlide() {
+            const totalSlidesCount = Math.ceil(totalItems / slidesPerView);
+            if (currentSlide < totalSlidesCount - 1) {
+                currentSlide++;
+                updateCarousel();
+            }
+        }
+        
+        // Render featured items in carousel
+        function renderFeaturedItems(featuredItems) {
+            if (!carouselTrack) return;
+            
+            if (featuredItems.length === 0) {
+                featuredSection.style.display = 'none';
+                return;
+            }
+            
+            featuredSection.style.display = 'block';
+            totalItems = featuredItems.length;
+            
+            const categoryColors = {
+                hospital: { bg: 'from-amber-50 to-yellow-50', border: 'border-yellow-200', iconBg: 'bg-yellow-100', icon: 'fas fa-hospital', iconColor: 'text-red-500' },
+                school: { bg: 'from-blue-50 to-indigo-50', border: 'border-blue-200', iconBg: 'bg-blue-100', icon: 'fas fa-graduation-cap', iconColor: 'text-blue-500' },
+                auto: { bg: 'from-green-50 to-emerald-50', border: 'border-green-200', iconBg: 'bg-green-100', icon: 'fas fa-car', iconColor: 'text-green-500' },
+                realestate: { bg: 'from-purple-50 to-pink-50', border: 'border-purple-200', iconBg: 'bg-purple-100', icon: 'fas fa-building', iconColor: 'text-purple-500' }
+            };
+            
+            carouselTrack.innerHTML = featuredItems.map(item => {
+                const colors = categoryColors[item.category] || { 
+                    bg: 'from-gray-50 to-gray-100', 
+                    border: 'border-gray-200', 
+                    iconBg: 'bg-gray-100', 
+                    icon: 'fas fa-building', 
+                    iconColor: 'text-gray-500' 
+                };
+                
+                return `
+                    <div class="carousel-slide">
+                        <div class="bg-gradient-to-br ${colors.bg} rounded-xl p-4 border ${colors.border} featured-card shadow-md cursor-pointer h-full" onclick='openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-12 h-12 ${colors.iconBg} rounded-full flex items-center justify-center shadow-inner">
+                                    <i class="${colors.icon} ${colors.iconColor} text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-800">${escapeHtml(item.name)}</p>
+                                    <p class="text-xs text-gray-500">${item.category === 'hospital' ? '🏥 Hospital' : item.category === 'school' ? '📚 School' : item.category === 'auto' ? '🔧 Auto Service' : '🏢 Real Estate'}</p>
+                                </div>
+                            </div>
+                            ${item.address ? `<p class="text-xs text-gray-600 mt-2 flex items-start gap-1"><i class="fas fa-map-marker-alt text-red-400 text-xs mt-0.5"></i> <span>${escapeHtml(item.address).substring(0, 60)}${escapeHtml(item.address).length > 60 ? '...' : ''}</span></p>` : ''}
+                            ${item.contact ? `<p class="text-xs text-gray-600 mt-1 flex items-center gap-1"><i class="fas fa-phone-alt text-green-500 text-xs"></i> ${generateNumberHTML(item.contact, item.name, item.name.replace(/\s/g, '_') + '_' + (item.category || 'other'))}</p>` : ''}
+                            <div class="mt-3 pt-2 border-t border-gray-200">
+                                <span class="text-xs text-itarsi-primary font-medium"><i class="fas fa-hand-pointer mr-1"></i> Click for details</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            currentSlide = 0;
+            updateSlidesPerView();
+            
+            // Add event listeners to carousel buttons
+            if (carouselPrev) {
+                carouselPrev.onclick = prevSlide;
+            }
+            if (carouselNext) {
+                carouselNext.onclick = nextSlide;
+            }
+        }
         
         // Modal functions
         function openModal(item) {
@@ -326,21 +718,22 @@
             
             const modalHTML = `
                 <div class="text-center mb-4">
-                    <div class="w-20 h-20 ${c.bg} rounded-2xl flex items-center justify-center mx-auto mb-3">
-                        <i class="${c.icon} text-${c.color}-500 text-3xl"></i>
+                    <div class="w-16 h-16 ${c.bg} rounded-2xl flex items-center justify-center mx-auto mb-3">
+                        <i class="${c.icon} text-${c.color}-500 text-2xl"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800">${escapeHtml(item.name)}</h2>
+                    <h2 class="text-xl font-bold text-gray-800">${escapeHtml(item.name)}</h2>
                     <span class="inline-block px-3 py-1 ${c.bg} ${c.text} text-xs rounded-full mt-2 uppercase">${escapeHtml(item.category)}</span>
+                    ${isFeatured(item) ? '<span class="inline-block ml-2 px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full"><i class="fas fa-star mr-1"></i>Featured</span>' : ''}
                 </div>
                 
                 <div class="space-y-3 border-t border-gray-100 pt-4">
                     ${item.address ? `
                         <div class="flex gap-3 items-start">
-                            <i class="fas fa-map-marker-alt text-gray-400 mt-1"></i>
+                            <i class="fas fa-map-marker-alt text-gray-400 mt-1 text-sm"></i>
                             <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-500">Address</p>
-                                <p class="text-gray-800">${escapeHtml(item.address)}</p>
-                                <a href="https://maps.google.com/?q=${escapeHtml(item.address)}" target="_blank" class="text-itarsi-primary text-sm mt-1 inline-block">
+                                <p class="text-xs font-medium text-gray-500">Address</p>
+                                <p class="text-sm text-gray-800">${escapeHtml(item.address)}</p>
+                                <a href="https://maps.google.com/?q=${encodeURIComponent(item.address)}" target="_blank" class="text-itarsi-primary text-xs mt-1 inline-block">
                                     <i class="fas fa-external-link-alt mr-1"></i> Get Directions
                                 </a>
                             </div>
@@ -349,62 +742,60 @@
                     
                     ${item.contact ? `
                         <div class="flex gap-3 items-start">
-                            <i class="fas fa-phone-alt text-gray-400 mt-1"></i>
+                            <i class="fas fa-phone-alt text-gray-400 mt-1 text-sm"></i>
                             <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-500">Phone</p>
-                                <p class="text-gray-800 font-mono">${escapeHtml(item.contact)}</p>
-                                <a href="tel:${escapeHtml(item.contact)}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm inline-block mt-2">
-                                    <i class="fas fa-phone-alt mr-1"></i> Call Now
-                                </a>
+                                <p class="text-xs font-medium text-gray-500">Phone</p>
+                                ${generateNumberHTML(item.contact, item.name, item.name.replace(/\s/g, '_') + '_' + (item.category || 'other'))}
+                                <div class="mt-2 text-[10px] text-gray-400">
+                                    <i class="fas fa-shield-alt mr-1"></i> Number hidden for privacy — tap to reveal
+                                </div>
                             </div>
                         </div>
                     ` : ''}
                     
                     ${item.extra ? `
                         <div class="flex gap-3 items-start">
-                            <i class="fas fa-info-circle text-gray-400 mt-1"></i>
+                            <i class="fas fa-info-circle text-gray-400 mt-1 text-sm"></i>
                             <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-500">Additional Info</p>
-                                <p class="text-gray-800">${escapeHtml(item.extra)}</p>
+                                <p class="text-xs font-medium text-gray-500">Additional Info</p>
+                                <p class="text-sm text-gray-800">${escapeHtml(item.extra)}</p>
                             </div>
                         </div>
                     ` : ''}
                     
                     ${item.timings ? `
                         <div class="flex gap-3 items-start">
-                            <i class="fas fa-clock text-gray-400 mt-1"></i>
+                            <i class="fas fa-clock text-gray-400 mt-1 text-sm"></i>
                             <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-500">Timings</p>
-                                <p class="text-gray-800">${escapeHtml(item.timings)}</p>
+                                <p class="text-xs font-medium text-gray-500">Timings</p>
+                                <p class="text-sm text-gray-800">${escapeHtml(item.timings)}</p>
                             </div>
                         </div>
                     ` : ''}
                     
                     ${item.website ? `
                         <div class="flex gap-3 items-start">
-                            <i class="fas fa-globe text-gray-400 mt-1"></i>
+                            <i class="fas fa-globe text-gray-400 mt-1 text-sm"></i>
                             <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-500">Website</p>
-                                <a href="${escapeHtml(item.website)}" target="_blank" class="text-itarsi-primary text-sm break-all">
+                                <p class="text-xs font-medium text-gray-500">Website</p>
+                                <a href="${escapeHtml(item.website)}" target="_blank" class="text-itarsi-primary text-xs break-all">
                                     ${escapeHtml(item.website)}
                                 </a>
                             </div>
                         </div>
                     ` : ''}
+                    ${item.email ? `
+                        <div class="flex gap-3 items-start">
+                            <i class="fas fa-envelope text-gray-400 mt-1 text-sm"></i>
+                            <div class="flex-1">
+                                <p class="text-xs font-medium text-gray-500">Email</p>
+                                <a href="mailto:${escapeHtml(item.email)}" class="text-itarsi-primary text-xs break-all">
+                                    ${escapeHtml(item.email)}
+                                </a>
+                            </div>
+                        </div>
+                    ` : ''}
                 </div>
-
-${item.email ? `
-    <div class="flex gap-3 items-start">
-        <i class="fas fa-envelope text-gray-400 mt-1"></i>
-        <div class="flex-1">
-            <p class="text-sm font-medium text-gray-500">Email</p>
-            <a href="mailto:${escapeHtml(item.email)}" class="text-itarsi-primary text-sm break-all">
-                ${escapeHtml(item.email)}
-            </a>
-        </div>
-    </div>
-` : ''}
-
             `;
             
             document.getElementById('modalBody').innerHTML = modalHTML;
@@ -429,7 +820,7 @@ ${item.email ? `
                 if (cached && cached.length > 0) {
                     placesData = cached;
                     resultStats.innerHTML = `<i class="fas fa-database text-green-500 mr-2"></i> ${placesData.length} services`;
-                    renderCards();
+                    renderAll();
                     return;
                 }
             }
@@ -449,12 +840,12 @@ ${item.email ? `
                 placesData = data.filter(item => item.name && item.category);
                 setCachedData(placesData);
                 resultStats.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> ${placesData.length} services`;
-                renderCards();
+                renderAll();
             } catch (error) {
                 console.error(error);
                 if (placesData.length === 0) loadFallbackData();
                 resultStats.innerHTML = `<i class="fas fa-cloud-arrow-down text-gray-400 mr-2"></i> ${placesData.length} services`;
-                renderCards();
+                renderAll();
             } finally {
                 isLoading = false;
                 if (refreshBtn) setTimeout(() => refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>', 1000);
@@ -463,17 +854,27 @@ ${item.email ? `
         
         function loadFallbackData() {
             placesData = [
-                { name: "Itarsi District Hospital", category: "hospital", address: "Civil Lines, Itarsi", contact: "07572 241001", extra: "24/7 Emergency", timings: "24x7", website: "" },
-                { name: "City Hospital", category: "hospital", address: "Junnardeo Road", contact: "07572 245678", extra: "Multi-speciality", timings: "24x7", website: "" },
-                { name: "Delhi Public School", category: "school", address: "Junnardeo Road", contact: "07572 288101", extra: "CBSE Curriculum", timings: "8am-2pm", website: "" },
-                { name: "St. Mary's Convent", category: "school", address: "Civil Lines", contact: "07572 241234", extra: "ICSE Board", timings: "8am-2pm", website: "" },
-                { name: "City Auto Service", category: "auto", address: "Railway Station", contact: "99778 66552", extra: "24x7 Available", timings: "24x7", website: "" },
-                { name: "Sharma Real Estate", category: "realestate", address: "Main Road", contact: "9988776655", extra: "20+ years experience", timings: "10am-7pm", website: "" }
+                { name: "Itarsi District Hospital", category: "hospital", address: "Civil Lines, Itarsi", contact: "07572 241001", extra: "24/7 Emergency", timings: "24x7", website: "", featured: "yes" },
+                { name: "City Hospital", category: "hospital", address: "Junnardeo Road, Itarsi", contact: "07572 245678", extra: "Multi-speciality", timings: "24x7", website: "", featured: "yes" },
+                { name: "Delhi Public School", category: "school", address: "Junnardeo Road, Itarsi", contact: "07572 288101", extra: "CBSE Curriculum", timings: "8am-2pm", website: "", featured: "yes" },
+                { name: "St. Mary's Convent", category: "school", address: "Civil Lines, Itarsi", contact: "07572 241234", extra: "ICSE Board", timings: "8am-2pm", website: "", featured: "yes" },
+                { name: "City Auto Service", category: "auto", address: "Near Railway Station, Itarsi", contact: "99778 66552", extra: "24x7 Available", timings: "24x7", website: "", featured: "yes" },
+                { name: "Sharma Real Estate", category: "realestate", address: "Main Road, Itarsi", contact: "9988776655", extra: "20+ years experience", timings: "10am-7pm", website: "", featured: "" }
             ];
         }
         
+        function renderAll() {
+            const featuredItems = placesData.filter(item => isFeatured(item));
+            renderFeaturedItems(featuredItems);
+            renderCards();
+        }
+        
         function renderCards() {
+            // EXCLUDE featured items from main grid to avoid duplication
             let filtered = placesData.filter(item => {
+                // Skip featured items - they only go in carousel
+                if (isFeatured(item)) return false;
+                
                 let itemCategory = (item.category || '').toLowerCase().trim();
                 let activeCat = activeCategory.toLowerCase();
                 if (activeCat !== 'all' && itemCategory !== activeCat) return false;
@@ -487,11 +888,26 @@ ${item.email ? `
                 return true;
             });
             
-            const categoryNames = { all: 'services', hospital: 'hospitals', school: 'schools', auto: 'auto services', realestate: 'real estate' };
-            resultStats.innerHTML = filtered.length === 0 ? 'No results found' : `Showing ${filtered.length} ${categoryNames[activeCategory]}`;
+            const featuredCount = placesData.filter(i => isFeatured(i)).length;
+            const regularCount = placesData.filter(i => !isFeatured(i)).length;
+            
+            if (filtered.length === 0 && !searchQuery.trim()) {
+                resultStats.innerHTML = `✨ ${regularCount} local listings | ⭐ ${featuredCount} featured`;
+            } else if (filtered.length === 0 && searchQuery.trim()) {
+                resultStats.innerHTML = 'No results found';
+            } else {
+                resultStats.innerHTML = `✨ Showing ${filtered.length} ${activeCategory === 'all' ? 'listings' : activeCategory + 's'}`;
+            }
             
             if (filtered.length === 0) {
-                cardsContainer.innerHTML = `<div class="col-span-full text-center py-16"><i class="fas fa-search text-6xl text-gray-300 mb-4"></i><p class="text-gray-500">No results found.</p></div>`;
+                cardsContainer.innerHTML = `<div class="col-span-full text-center py-16">
+                    <div class="inline-block p-5 bg-gray-100 rounded-full mb-4">
+                        <i class="fas fa-search text-4xl text-gray-400"></i>
+                    </div>
+                    <p class="text-gray-500">No results found.</p>
+                    <p class="text-gray-400 text-xs mt-1">Try a different search term or category</p>
+                    <button onclick="document.getElementById('clearSearchBtn').click()" class="mt-3 text-itarsi-primary hover:underline text-sm font-medium">Clear search →</button>
+                </div>`;
                 return;
             }
             
@@ -505,22 +921,22 @@ ${item.email ? `
                 const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-50' };
                 
                 return `
-                    <div class="card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 animate-fade-in" onclick='openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>
-                        <div class="h-2 bg-gradient-to-r from-${c.color}-400 to-${c.color}-600"></div>
-                        <div class="p-6">
+                    <div class="card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 relative" onclick='openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>
+                        <div class="h-1.5 bg-gradient-to-r from-${c.color}-400 to-${c.color}-600"></div>
+                        <div class="p-5">
                             <div class="flex items-center gap-3 mb-3">
-                                <div class="w-12 h-12 ${c.bg} rounded-xl flex items-center justify-center">
-                                    <i class="${c.icon} text-${c.color}-500 text-xl"></i>
+                                <div class="w-11 h-11 ${c.bg} rounded-xl flex items-center justify-center">
+                                    <i class="${c.icon} text-${c.color}-500 text-lg"></i>
                                 </div>
-                                <h3 class="font-bold text-xl text-gray-800">${escapeHtml(item.name)}</h3>
+                                <h3 class="font-bold text-lg text-gray-800">${escapeHtml(item.name)}</h3>
                             </div>
-                            <div class="space-y-2 text-gray-600 text-sm">
-                                ${item.address ? `<div class="flex gap-2"><i class="fas fa-map-marker-alt text-${c.color}-500 mt-0.5"></i> <span>${escapeHtml(item.address)}</span></div>` : ''}
-                                ${item.contact ? `<div class="flex gap-2"><i class="fas fa-phone-alt text-${c.color}-500 mt-0.5"></i> <span class="font-mono">${escapeHtml(item.contact)}</span></div>` : ''}
-                                ${item.extra ? `<div class="flex gap-2"><i class="fas fa-info-circle text-${c.color}-500 mt-0.5"></i> <span>${escapeHtml(item.extra)}</span></div>` : ''}
+                            <div class="space-y-2 text-gray-600 text-xs">
+                                ${item.address ? `<div class="flex gap-2"><i class="fas fa-map-marker-alt text-${c.color}-500 mt-0.5 text-xs"></i> <span>${escapeHtml(item.address)}</span></div>` : ''}
+                                ${item.contact ? `<div class="flex gap-2"><i class="fas fa-phone-alt text-${c.color}-500 mt-0.5 text-xs"></i> ${generateNumberHTML(item.contact, item.name, item.name.replace(/\s/g, '_') + '_' + (item.category || 'other'))}</div>` : ''}
+                                ${item.extra ? `<div class="flex gap-2"><i class="fas fa-info-circle text-${c.color}-500 mt-0.5 text-xs"></i> <span>${escapeHtml(item.extra)}</span></div>` : ''}
                             </div>
                             <div class="mt-3 text-xs text-itarsi-primary">
-                                <i class="fas fa-hand-pointer mr-1"></i> Click for details
+                                <i class="fas fa-hand-pointer mr-1 text-xs"></i> Click for details
                             </div>
                         </div>
                     </div>
@@ -538,13 +954,13 @@ ${item.email ? `
             categoryBtns.forEach(btn => {
                 const btnCat = btn.getAttribute('data-cat');
                 if (btnCat === category) {
-                    btn.className = 'bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                    btn.className = 'bg-itarsi-primary text-white px-5 py-2 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
                 } else {
-                    if (btnCat === 'hospital') btn.className = 'bg-white text-gray-700 hover:bg-red-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
-                    else if (btnCat === 'school') btn.className = 'bg-white text-gray-700 hover:bg-blue-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
-                    else if (btnCat === 'auto') btn.className = 'bg-white text-gray-700 hover:bg-green-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
-                    else if (btnCat === 'realestate') btn.className = 'bg-white text-gray-700 hover:bg-purple-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
-                    else btn.className = 'bg-white text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                    if (btnCat === 'hospital') btn.className = 'bg-white text-gray-700 hover:bg-red-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
+                    else if (btnCat === 'school') btn.className = 'bg-white text-gray-700 hover:bg-blue-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
+                    else if (btnCat === 'auto') btn.className = 'bg-white text-gray-700 hover:bg-green-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
+                    else if (btnCat === 'realestate') btn.className = 'bg-white text-gray-700 hover:bg-purple-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
+                    else btn.className = 'bg-white text-gray-700 hover:bg-gray-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
                 }
             });
             renderCards();
@@ -560,6 +976,11 @@ ${item.email ? `
         
         clearBtn.addEventListener('click', () => { searchInput.value = ''; searchQuery = ''; renderCards(); });
         refreshBtn.addEventListener('click', () => { clearCache(); fetchDataFromSheets(true); });
+        
+        // Handle window resize for carousel
+        window.addEventListener('resize', () => {
+            updateSlidesPerView();
+        });
         
         fetchDataFromSheets();
         
