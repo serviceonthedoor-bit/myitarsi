@@ -17,23 +17,25 @@
             font-family: 'Inter', system-ui, sans-serif;
         }
         
-        /* STRONG protection - prevent text selection on cards */
+        /* Card protection */
         .card, .card * {
             user-select: none !important;
             -webkit-user-select: none !important;
-            -moz-user-select: none !important;
-            -ms-user-select: none !important;
         }
         
-        /* Allow selection ONLY on search input */
         input, button {
             user-select: text !important;
-            -webkit-user-select: text !important;
         }
         
-        /* Watermark on cards */
         .card {
             position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         
         .card::after {
@@ -45,6 +47,69 @@
             color: rgba(0, 0, 0, 0.1);
             pointer-events: none;
             font-weight: 500;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: scale(1.1);
         }
         
         ::-webkit-scrollbar {
@@ -60,14 +125,13 @@
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .animate-fade-in {
             animation: fadeIn 0.4s ease-out;
         }
         
-        /* Loading skeleton */
         .skeleton {
             background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
             background-size: 200% 100%;
@@ -75,20 +139,6 @@
         }
         @keyframes shine {
             to { background-position-x: -200%; }
-        }
-        
-        /* Subtle loading indicator */
-        .loading-dot {
-            display: inline-block;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background-color: #1e7e6c;
-            animation: pulse 1.2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1); }
         }
     </style>
     
@@ -134,7 +184,7 @@
             </div>
             <p class="text-gray-600 mt-3 text-lg flex items-center justify-center gap-2">
                 <i class="fas fa-map-marker-alt text-itarsi-primary"></i>
-                Hospitals · Schools · Auto Availability
+                Hospitals · Schools · Auto · Real Estate
             </p>
         </div>
 
@@ -147,8 +197,13 @@
                         <i class="fas fa-search text-gray-400 ml-4 text-xl"></i>
                         <input type="text" id="searchInput" 
                                class="flex-1 p-4 outline-none text-gray-700 placeholder-gray-400 text-lg"
-                               placeholder="Search hospitals, schools, or auto services..."
+                               placeholder="Search hospitals, schools, auto services, or real estate..."
                                autocomplete="off">
+                        <button id="refreshBtn" 
+                                class="bg-itarsi-primary hover:bg-itarsi-secondary text-white px-5 py-2 rounded-xl transition duration-200 font-medium mx-1"
+                                title="Refresh data">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
                         <button id="clearSearchBtn" 
                                 class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-6 py-2 rounded-xl transition duration-200 font-medium">
                             <i class="fas fa-times mr-2"></i>Clear
@@ -172,16 +227,16 @@
             <button data-cat="auto" class="cat-btn bg-white text-gray-700 hover:bg-green-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2">
                 <i class="fas fa-car text-green-500"></i> Auto Services
             </button>
+            <button data-cat="realestate" class="cat-btn bg-white text-gray-700 hover:bg-purple-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                <i class="fas fa-building text-purple-500"></i> Real Estate
+            </button>
         </div>
 
-        <!-- Results Stats - Initially empty/hidden -->
-        <div id="resultStats" class="text-center text-gray-500 mb-6 font-medium">
-            <!-- Will be populated after load -->
-        </div>
+        <!-- Results Stats -->
+        <div id="resultStats" class="text-center text-gray-500 mb-6 font-medium"></div>
 
-        <!-- Cards Grid with skeleton loading -->
+        <!-- Cards Grid -->
         <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Skeleton loaders -->
             <div class="skeleton h-64 rounded-2xl"></div>
             <div class="skeleton h-64 rounded-2xl hidden md:block"></div>
             <div class="skeleton h-64 rounded-2xl hidden lg:block"></div>
@@ -191,140 +246,222 @@
         <footer class="mt-16 pt-8 border-t border-gray-200 text-center">
             <p class="text-gray-500 text-sm">🌿 My Itarsi — connecting you with essential local services</p>
             <p class="text-gray-400 text-xs mt-2">© 2026 My Itarsi Directory | All Rights Reserved</p>
-            <p class="text-gray-400 text-xs mt-1">Data curated with ❤️ for Itarsi community</p>
+            <p class="text-gray-400 text-xs mt-1">Click on any card for more details</p>
         </footer>
+    </div>
+
+    <!-- Modal Popup -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times text-white text-sm"></i>
+            </div>
+            <div id="modalBody" class="p-6">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
     </div>
 
     <script>
         // ========== COPY PROTECTION ==========
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            return false;
-        });
-        
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
             if (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'a')) {
                 e.preventDefault();
-                showAlert();
-                return false;
+                alert('📋 Content is protected.');
             }
-            if (e.key === 'F12') {
-                e.preventDefault();
-                return false;
-            }
+            if (e.key === 'F12') e.preventDefault();
         });
+        document.addEventListener('copy', e => { e.preventDefault(); alert('📋 Content is protected.'); });
+        document.addEventListener('cut', e => { e.preventDefault(); alert('📋 Content is protected.'); });
+        document.addEventListener('dragstart', e => e.preventDefault());
         
-        document.addEventListener('copy', function(e) {
-            e.preventDefault();
-            showAlert();
-            return false;
-        });
-        
-        document.addEventListener('cut', function(e) {
-            e.preventDefault();
-            showAlert();
-            return false;
-        });
-        
-        function showAlert() {
-            alert('📋 Content is protected.\n\nInformation on My Itarsi is curated for public benefit.\nFor inquiries or data requests, please contact us.');
-        }
-        
-        document.addEventListener('dragstart', function(e) {
-            e.preventDefault();
-            return false;
-        });
-        
-        // ========== GOOGLE SHEETS CONNECTION WITH CACHE ==========
+        // ========== CONFIGURATION ==========
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI54-1K2KfJ_XF9opzuajfWJSnxlPXjxV6letT7z3syA8l6khIaypcAGNfqKp4aXmP/exec';
-        const CACHE_KEY = 'myitarsi_data';
-        const CACHE_DURATION = 60 * 60 * 1000; // 1 hour cache
+        const CACHE_KEY = 'myitarsi_data_v2';
+        const CACHE_DURATION = 0;
         
         let placesData = [];
         let activeCategory = 'all';
         let searchQuery = '';
+        let isLoading = false;
         
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearSearchBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
         const cardsContainer = document.getElementById('cardsContainer');
         const resultStats = document.getElementById('resultStats');
         const categoryBtns = document.querySelectorAll('.cat-btn');
+        const modal = document.getElementById('detailModal');
         
         // Cache functions
         function getCachedData() {
-            try {
-                const cached = localStorage.getItem(CACHE_KEY);
-                if (!cached) return null;
-                const { data, timestamp } = JSON.parse(cached);
-                if (Date.now() - timestamp < CACHE_DURATION) {
-                    return data;
-                }
-                return null;
-            } catch(e) { return null; }
-        }
+    		return null;  // Always fetch fresh data from Google Sheets
+	}
         
         function setCachedData(data) {
             try {
-                localStorage.setItem(CACHE_KEY, JSON.stringify({
-                    data: data,
-                    timestamp: Date.now()
-                }));
+                localStorage.setItem(CACHE_KEY, JSON.stringify({ data: data, timestamp: Date.now() }));
             } catch(e) {}
         }
         
-        async function fetchDataFromSheets() {
-            // Check cache first
-            const cached = getCachedData();
-            if (cached && cached.length > 0) {
-                placesData = cached;
-                // No message, just show the data
-                resultStats.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> ${placesData.length} services available`;
-                renderCards();
-                return;
+        function clearCache() { localStorage.removeItem(CACHE_KEY); }
+        
+        // Modal functions
+        function openModal(item) {
+            const config = {
+                hospital: { icon: 'fas fa-hospital', color: 'red', bg: 'bg-red-100', text: 'text-red-600' },
+                school: { icon: 'fas fa-graduation-cap', color: 'blue', bg: 'bg-blue-100', text: 'text-blue-600' },
+                auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-100', text: 'text-green-600' },
+                realestate: { icon: 'fas fa-building', color: 'purple', bg: 'bg-purple-100', text: 'text-purple-600' }
+            };
+            const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-100', text: 'text-gray-600' };
+            
+            const modalHTML = `
+                <div class="text-center mb-4">
+                    <div class="w-20 h-20 ${c.bg} rounded-2xl flex items-center justify-center mx-auto mb-3">
+                        <i class="${c.icon} text-${c.color}-500 text-3xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">${escapeHtml(item.name)}</h2>
+                    <span class="inline-block px-3 py-1 ${c.bg} ${c.text} text-xs rounded-full mt-2 uppercase">${escapeHtml(item.category)}</span>
+                </div>
+                
+                <div class="space-y-3 border-t border-gray-100 pt-4">
+                    ${item.address ? `
+                        <div class="flex gap-3 items-start">
+                            <i class="fas fa-map-marker-alt text-gray-400 mt-1"></i>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-500">Address</p>
+                                <p class="text-gray-800">${escapeHtml(item.address)}</p>
+                                <a href="https://maps.google.com/?q=${escapeHtml(item.address)}" target="_blank" class="text-itarsi-primary text-sm mt-1 inline-block">
+                                    <i class="fas fa-external-link-alt mr-1"></i> Get Directions
+                                </a>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${item.contact ? `
+                        <div class="flex gap-3 items-start">
+                            <i class="fas fa-phone-alt text-gray-400 mt-1"></i>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-500">Phone</p>
+                                <p class="text-gray-800 font-mono">${escapeHtml(item.contact)}</p>
+                                <a href="tel:${escapeHtml(item.contact)}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm inline-block mt-2">
+                                    <i class="fas fa-phone-alt mr-1"></i> Call Now
+                                </a>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${item.extra ? `
+                        <div class="flex gap-3 items-start">
+                            <i class="fas fa-info-circle text-gray-400 mt-1"></i>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-500">Additional Info</p>
+                                <p class="text-gray-800">${escapeHtml(item.extra)}</p>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${item.timings ? `
+                        <div class="flex gap-3 items-start">
+                            <i class="fas fa-clock text-gray-400 mt-1"></i>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-500">Timings</p>
+                                <p class="text-gray-800">${escapeHtml(item.timings)}</p>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${item.website ? `
+                        <div class="flex gap-3 items-start">
+                            <i class="fas fa-globe text-gray-400 mt-1"></i>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-500">Website</p>
+                                <a href="${escapeHtml(item.website)}" target="_blank" class="text-itarsi-primary text-sm break-all">
+                                    ${escapeHtml(item.website)}
+                                </a>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+
+${item.email ? `
+    <div class="flex gap-3 items-start">
+        <i class="fas fa-envelope text-gray-400 mt-1"></i>
+        <div class="flex-1">
+            <p class="text-sm font-medium text-gray-500">Email</p>
+            <a href="mailto:${escapeHtml(item.email)}" class="text-itarsi-primary text-sm break-all">
+                ${escapeHtml(item.email)}
+            </a>
+        </div>
+    </div>
+` : ''}
+
+            `;
+            
+            document.getElementById('modalBody').innerHTML = modalHTML;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        async function fetchDataFromSheets(forceRefresh = false) {
+            if (isLoading) return;
+            
+            if (!forceRefresh) {
+                const cached = getCachedData();
+                if (cached && cached.length > 0) {
+                    placesData = cached;
+                    resultStats.innerHTML = `<i class="fas fa-database text-green-500 mr-2"></i> ${placesData.length} services`;
+                    renderCards();
+                    return;
+                }
             }
             
+            isLoading = true;
+            if (refreshBtn) refreshBtn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i>';
+            
             try {
-                // Show skeleton loaders (already visible in HTML)
-                // No text message about syncing
-                
-                // Timeout for slow network
+                resultStats.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Loading...';
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 8000);
-                
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
                 const response = await fetch(APPS_SCRIPT_URL, { signal: controller.signal });
                 clearTimeout(timeoutId);
-                
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
                 const data = await response.json();
                 if (data[0] && data[0].error) throw new Error(data[0].error);
-                
                 placesData = data.filter(item => item.name && item.category);
                 setCachedData(placesData);
-                
-                console.log(`✅ Loaded ${placesData.length} records`);
-                resultStats.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> ${placesData.length} services available in Itarsi`;
+                resultStats.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> ${placesData.length} services`;
                 renderCards();
-                
             } catch (error) {
-                console.error('Error:', error);
-                if (placesData.length === 0) {
-                    loadFallbackData();
-                }
-                // Subtle error message (not too intrusive)
-                resultStats.innerHTML = `<i class="fas fa-cloud-arrow-down text-gray-400 mr-2"></i> ${placesData.length} services available`;
+                console.error(error);
+                if (placesData.length === 0) loadFallbackData();
+                resultStats.innerHTML = `<i class="fas fa-cloud-arrow-down text-gray-400 mr-2"></i> ${placesData.length} services`;
                 renderCards();
+            } finally {
+                isLoading = false;
+                if (refreshBtn) setTimeout(() => refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>', 1000);
             }
         }
         
         function loadFallbackData() {
             placesData = [
-                { name: "Itarsi District Hospital", category: "hospital", address: "Civil Lines, Itarsi", contact: "07572 241001", extra: "24/7 Emergency", typeLabel: "Govt. Hospital" },
-                { name: "City Hospital & Research Centre", category: "hospital", address: "Junnardeo Road, Itarsi", contact: "07572 245678", extra: "Multi-speciality", typeLabel: "Private Hospital" },
-                { name: "Delhi Public School Itarsi", category: "school", address: "Junnardeo Road, Itarsi", contact: "07572 288101", extra: "CBSE Curriculum", typeLabel: "CBSE School" },
-                { name: "St. Mary's Convent School", category: "school", address: "Civil Lines, Itarsi", contact: "07572 241234", extra: "ICSE Board", typeLabel: "Convent School" },
-                { name: "City Auto Service", category: "auto", address: "Railway Station Itarsi", contact: "99778 66552", extra: "24x7 Available", typeLabel: "Prepaid Auto" },
-                { name: "Itarsi Auto Stand", category: "auto", address: "Bus Stand Area", contact: "99887 77665", extra: "All routes covered", typeLabel: "Auto Rickshaw" }
+                { name: "Itarsi District Hospital", category: "hospital", address: "Civil Lines, Itarsi", contact: "07572 241001", extra: "24/7 Emergency", timings: "24x7", website: "" },
+                { name: "City Hospital", category: "hospital", address: "Junnardeo Road", contact: "07572 245678", extra: "Multi-speciality", timings: "24x7", website: "" },
+                { name: "Delhi Public School", category: "school", address: "Junnardeo Road", contact: "07572 288101", extra: "CBSE Curriculum", timings: "8am-2pm", website: "" },
+                { name: "St. Mary's Convent", category: "school", address: "Civil Lines", contact: "07572 241234", extra: "ICSE Board", timings: "8am-2pm", website: "" },
+                { name: "City Auto Service", category: "auto", address: "Railway Station", contact: "99778 66552", extra: "24x7 Available", timings: "24x7", website: "" },
+                { name: "Sharma Real Estate", category: "realestate", address: "Main Road", contact: "9988776655", extra: "20+ years experience", timings: "10am-7pm", website: "" }
             ];
         }
         
@@ -333,7 +470,6 @@
                 let itemCategory = (item.category || '').toLowerCase().trim();
                 let activeCat = activeCategory.toLowerCase();
                 if (activeCat !== 'all' && itemCategory !== activeCat) return false;
-                
                 if (searchQuery.trim()) {
                     const query = searchQuery.toLowerCase();
                     return (item.name || '').toLowerCase().includes(query) ||
@@ -344,49 +480,40 @@
                 return true;
             });
             
-            const categoryNames = { all: 'all services', hospital: 'hospitals', school: 'schools', auto: 'auto services' };
-            if (searchQuery) {
-                resultStats.innerHTML = `<i class="fas fa-search mr-2 text-itarsi-primary"></i> Found ${filtered.length} ${categoryNames[activeCategory]} matching "${searchQuery}"`;
-            } else {
-                resultStats.innerHTML = `<i class="fas fa-building mr-2 text-itarsi-primary"></i> Showing ${filtered.length} ${categoryNames[activeCategory]}`;
-            }
+            const categoryNames = { all: 'services', hospital: 'hospitals', school: 'schools', auto: 'auto services', realestate: 'real estate' };
+            resultStats.innerHTML = filtered.length === 0 ? 'No results found' : `Showing ${filtered.length} ${categoryNames[activeCategory]}`;
             
             if (filtered.length === 0) {
-                cardsContainer.innerHTML = `<div class="col-span-full text-center py-16">
-                    <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
-                    <p class="text-gray-500">No results found.</p>
-                    <p class="text-gray-400 text-sm mt-2">Try adjusting your search or category filter</p>
-                </div>`;
+                cardsContainer.innerHTML = `<div class="col-span-full text-center py-16"><i class="fas fa-search text-6xl text-gray-300 mb-4"></i><p class="text-gray-500">No results found.</p></div>`;
                 return;
             }
             
-            cardsContainer.innerHTML = filtered.map(item => {
+            cardsContainer.innerHTML = filtered.map((item, index) => {
                 const config = {
                     hospital: { icon: 'fas fa-hospital', color: 'red', bg: 'bg-red-50' },
                     school: { icon: 'fas fa-graduation-cap', color: 'blue', bg: 'bg-blue-50' },
-                    auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-50' }
+                    auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-50' },
+                    realestate: { icon: 'fas fa-building', color: 'purple', bg: 'bg-purple-50' }
                 };
                 const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-50' };
                 
                 return `
-                    <div class="card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden border border-gray-100 animate-fade-in">
+                    <div class="card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 animate-fade-in" onclick='openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>
                         <div class="h-2 bg-gradient-to-r from-${c.color}-400 to-${c.color}-600"></div>
                         <div class="p-6">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 ${c.bg} rounded-xl flex items-center justify-center">
-                                        <i class="${c.icon} text-${c.color}-500 text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-bold text-xl text-gray-800">${escapeHtml(item.name)}</h3>
-                                        <span class="text-xs text-gray-400 uppercase">${escapeHtml(item.category)}</span>
-                                    </div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-12 h-12 ${c.bg} rounded-xl flex items-center justify-center">
+                                    <i class="${c.icon} text-${c.color}-500 text-xl"></i>
                                 </div>
+                                <h3 class="font-bold text-xl text-gray-800">${escapeHtml(item.name)}</h3>
                             </div>
-                            <div class="space-y-2 text-gray-600">
-                                ${item.address ? `<div class="flex gap-2 text-sm"><i class="fas fa-map-marker-alt text-${c.color}-500 mt-0.5"></i> <span>${escapeHtml(item.address)}</span></div>` : ''}
-                                ${item.contact ? `<div class="flex gap-2 text-sm"><i class="fas fa-phone-alt text-${c.color}-500 mt-0.5"></i> <span class="font-mono">${escapeHtml(item.contact)}</span></div>` : ''}
-                                ${item.extra ? `<div class="flex gap-2 text-sm"><i class="fas fa-info-circle text-${c.color}-500 mt-0.5"></i> <span>${escapeHtml(item.extra)}</span></div>` : ''}
+                            <div class="space-y-2 text-gray-600 text-sm">
+                                ${item.address ? `<div class="flex gap-2"><i class="fas fa-map-marker-alt text-${c.color}-500 mt-0.5"></i> <span>${escapeHtml(item.address)}</span></div>` : ''}
+                                ${item.contact ? `<div class="flex gap-2"><i class="fas fa-phone-alt text-${c.color}-500 mt-0.5"></i> <span class="font-mono">${escapeHtml(item.contact)}</span></div>` : ''}
+                                ${item.extra ? `<div class="flex gap-2"><i class="fas fa-info-circle text-${c.color}-500 mt-0.5"></i> <span>${escapeHtml(item.extra)}</span></div>` : ''}
+                            </div>
+                            <div class="mt-3 text-xs text-itarsi-primary">
+                                <i class="fas fa-hand-pointer mr-1"></i> Click for details
                             </div>
                         </div>
                     </div>
@@ -396,63 +523,41 @@
         
         function escapeHtml(str) {
             if (!str) return '';
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
+            return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
         }
         
         function setActiveCategory(category) {
             activeCategory = category;
-            
             categoryBtns.forEach(btn => {
                 const btnCat = btn.getAttribute('data-cat');
                 if (btnCat === category) {
                     btn.className = 'bg-itarsi-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2';
                 } else {
-                    if (btnCat === 'hospital') {
-                        btn.className = 'bg-white text-gray-700 hover:bg-red-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
-                    } else if (btnCat === 'school') {
-                        btn.className = 'bg-white text-gray-700 hover:bg-blue-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
-                    } else if (btnCat === 'auto') {
-                        btn.className = 'bg-white text-gray-700 hover:bg-green-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
-                    } else {
-                        btn.className = 'bg-white text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
-                    }
+                    if (btnCat === 'hospital') btn.className = 'bg-white text-gray-700 hover:bg-red-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                    else if (btnCat === 'school') btn.className = 'bg-white text-gray-700 hover:bg-blue-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                    else if (btnCat === 'auto') btn.className = 'bg-white text-gray-700 hover:bg-green-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                    else if (btnCat === 'realestate') btn.className = 'bg-white text-gray-700 hover:bg-purple-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
+                    else btn.className = 'bg-white text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-2';
                 }
             });
-            
             renderCards();
         }
         
-        // Event Listeners
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const category = this.getAttribute('data-cat');
-                setActiveCategory(category);
-            });
-        });
+        categoryBtns.forEach(btn => btn.addEventListener('click', () => setActiveCategory(btn.getAttribute('data-cat'))));
         
-        // Debounced search for better performance
         let searchTimeout;
-        searchInput.addEventListener('input', function(e) {
+        searchInput.addEventListener('input', e => {
             clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                searchQuery = e.target.value;
-                renderCards();
-            }, 300);
+            searchTimeout = setTimeout(() => { searchQuery = e.target.value; renderCards(); }, 300);
         });
         
-        clearBtn.addEventListener('click', function() {
-            searchInput.value = '';
-            searchQuery = '';
-            renderCards();
-        });
+        clearBtn.addEventListener('click', () => { searchInput.value = ''; searchQuery = ''; renderCards(); });
+        refreshBtn.addEventListener('click', () => { clearCache(); fetchDataFromSheets(true); });
         
-        // Load data
         fetchDataFromSheets();
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
     </script>
 </body>
 </html>
