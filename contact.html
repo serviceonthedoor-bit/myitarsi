@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - My Itarsi</title>
+    <meta name="description" content="Get in touch with My Itarsi — your trusted local directory for Itarsi, Madhya Pradesh.">
+    <meta name="copyright" content="My Itarsi Directory">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png">
+    
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .itarsi-primary { color: #0b5e4a; }
+        .itarsi-bg { background-color: #0b5e4a; }
+        .itarsi-bg:hover { background-color: #1e7e6c; }
+        .itarsi-border { border-color: #0b5e4a; }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'itarsi-primary': '#0b5e4a',
+                        'itarsi-secondary': '#1e7e6c',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="container mx-auto px-4 py-3 max-w-7xl flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 text-itarsi-primary font-bold text-xl">
+                <i class="fas fa-train"></i> My Itarsi
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-gray-600 hover:text-itarsi-primary transition text-sm font-medium">← Back to Directory</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+
+        <!-- Header -->
+        <div class="relative rounded-2xl overflow-hidden mb-8 shadow-lg">
+            <div class="absolute inset-0 bg-gradient-to-r from-itarsi-primary to-itarsi-secondary"></div>
+            <div class="relative py-12 px-6 text-center text-white">
+                <div class="inline-block bg-white/20 backdrop-blur-md rounded-full px-3 py-1 text-xs mb-2 font-medium">
+                    📬 Get in Touch
+                </div>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tight">Contact Us</h1>
+                <p class="text-lg opacity-95 max-w-2xl mx-auto mt-2">We'd love to hear from you — feedback, suggestions, or questions about My Itarsi.</p>
+            </div>
+        </div>
+
+        <!-- Contact Form & Info -->
+        <div class="grid md:grid-cols-2 gap-8">
+            
+            <!-- Contact Information -->
+            <div class="bg-white rounded-2xl shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">📌 Reach Out to Us</h2>
+                <p class="text-gray-600 text-sm mb-6">Have a question or suggestion? Fill out the form and we'll get back to you within 24-48 hours.</p>
+                
+                <div class="space-y-4">
+                    <!-- Email -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-envelope text-emerald-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Email</p>
+                            <!-- 👇 REPLACE this email with your Gmail ID -->
+                            <a href="mailto:your-email@gmail.com" class="text-sm text-gray-800 hover:text-itarsi-primary transition">
+                                your-email@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Phone (Optional) 
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-phone text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Phone</p>
+                            <p class="text-sm text-gray-800">+91 98765 43210</p>
+                        </div>
+                    </div> -->
+                    
+                    <!-- Location -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-map-marker-alt text-purple-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Location</p>
+                            <p class="text-sm text-gray-800">Itarsi, Madhya Pradesh</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="bg-white rounded-2xl shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">✉️ Send a Message</h2>
+                
+                <form id="contactPageForm">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-sm font-medium text-gray-700 block mb-1">Your Name *</label>
+                            <input type="text" id="contactPageName" required class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-700 block mb-1">Your Email *</label>
+                            <input type="email" id="contactPageEmail" required class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-700 block mb-1">Subject</label>
+                            <input type="text" id="contactPageSubject" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-700 block mb-1">Message *</label>
+                            <textarea id="contactPageMessage" rows="4" required class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none text-sm"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-itarsi-primary hover:bg-itarsi-secondary text-white py-3 rounded-xl font-semibold transition">
+                            <i class="fas fa-paper-plane mr-2"></i> Send Message
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="contactPageSuccess" class="hidden mt-4 p-3 bg-green-100 text-green-700 rounded-xl text-center text-sm">
+                    <i class="fas fa-check-circle mr-2"></i> Your message has been sent! We'll get back to you soon.
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="text-center mt-8">
+            <a href="index.html" class="text-itarsi-primary hover:underline text-sm">
+                <i class="fas fa-arrow-left mr-1"></i> Back to My Itarsi Directory
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-12 pt-6 border-t border-gray-200 text-center pb-6">
+        <p class="text-gray-400 text-xs">© 2026 My Itarsi Directory | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // ========== CONTACT PAGE FORM ==========
+        document.getElementById('contactPageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contactPageName').value;
+            const email = document.getElementById('contactPageEmail').value;
+            const subject = document.getElementById('contactPageSubject').value || 'Contact from My Itarsi';
+            const message = document.getElementById('contactPageMessage').value;
+            
+            // 👇 REPLACE YOUR_EMAIL@gmail.com with your actual Gmail ID
+            const mailtoLink = `mailto:your-email@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+                `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+            )}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Show success message
+            document.getElementById('contactPageSuccess').classList.remove('hidden');
+            this.reset();
+            
+            setTimeout(() => {
+                document.getElementById('contactPageSuccess').classList.add('hidden');
+            }, 5000);
+        });
+    </script>
+
+</body>
+</html>
