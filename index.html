@@ -2,18 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-	<link rel="icon" type="image/png" href="images/favicon-32x32.png">
-	<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4LBYWTQRCG"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4LBYWTQRCG');
-</script>
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>My Itarsi | Local Directory of Hospitals, Schools & Auto Services</title>
     <meta name="description" content="Complete directory of hospitals, schools, and auto services in Itarsi, Madhya Pradesh.">
     <meta name="copyright" content="My Itarsi Directory">
@@ -338,6 +327,27 @@
 </head>
 <body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
     
+
+<!-- ✅ ADD THIS NAVBAR -->
+<nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <div class="container mx-auto px-4 py-3 max-w-7xl flex justify-between items-center">
+        <!-- Left: Logo/Brand -->
+        <a href="index.html" class="flex items-center gap-2 text-itarsi-primary font-bold text-xl">
+            <i class="fas fa-train"></i> My Itarsi
+        </a>
+        <!-- Right: Language Toggle + Links -->
+<div class="flex items-center gap-4">
+    <!-- 🌐 LANGUAGE TOGGLE -->
+    <button id="langToggle" class="text-sm font-medium text-gray-600 hover:text-itarsi-primary transition bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full">
+        🇮🇳 हिंदी
+    </button>
+    
+    <div class="flex items-center gap-6">
+        <a href="about-itarsi.html" class="text-gray-600 hover:text-itarsi-primary transition text-sm font-medium">About Itarsi</a>
+        <a href="index.html" class="text-gray-600 hover:text-itarsi-primary transition text-sm font-medium">Home</a>
+    </div>
+</div>
+</nav>
     <!-- Animated Background -->
     <div class="fixed inset-0 overflow-hidden -z-10">
         <div class="absolute -top-40 -right-40 w-80 h-80 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
@@ -357,11 +367,11 @@
                         <i class="fas fa-train text-4xl text-white"></i>
                     </div>
                 </div>
-                <div class="inline-block bg-white/20 backdrop-blur-md rounded-full px-3 py-1 text-xs mb-2 font-medium shadow-lg">
-                    🌟 Itarsi's Trusted Local Directory
-                </div>
-                <h1 class="text-3xl md:text-4xl font-black mb-1 tracking-tight">My Itarsi</h1>
-                <p class="text-sm md:text-base opacity-95 max-w-2xl mx-auto">Discover the best of Itarsi — hospitals, schools, auto services, restaurants,  real estate and more...</p>
+               <div class="inline-block bg-white/20 backdrop-blur-md rounded-full px-3 py-1 text-xs mb-2 font-medium shadow-lg hero-badge">
+    🌟 Itarsi's Trusted Local Directory
+</div>
+<h1 class="text-3xl md:text-4xl font-black mb-1 tracking-tight hero-title">My Itarsi</h1>
+<p class="text-sm md:text-base opacity-95 max-w-2xl mx-auto hero-subtitle">Discover the best of Itarsi — hospitals, schools, auto services, restaurants, real estate and more...</p>
                 <p class="text-xs mt-2 opacity-90 flex items-center justify-center gap-2">
                     <i class="fas fa-check-circle"></i> Local Listings 
                     <span class="w-1 h-1 bg-white rounded-full"></span> 
@@ -372,30 +382,42 @@
             </div>
         </div>
 
-        <!-- Search Bar -->
-        <div class="max-w-3xl mx-auto mb-8 animate-fade-in">
-            <div class="relative group">
-                <div class="absolute inset-0 bg-gradient-to-r from-itarsi-primary to-itarsi-secondary rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
-                <div class="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-                    <div class="flex items-center p-2">
-                        <i class="fas fa-search text-gray-400 ml-4 text-xl"></i>
-                        <input type="text" id="searchInput" 
-                               class="flex-1 p-4 outline-none text-gray-700 placeholder-gray-400 text-lg"
-                               placeholder="Search hospitals, schools, auto services, or real estate..."
-                               autocomplete="off">
-                        <button id="refreshBtn" 
-                                class="bg-itarsi-primary hover:bg-itarsi-secondary text-white px-5 py-2 rounded-xl transition duration-200 font-medium mx-1"
-                                title="Refresh data">
-                            <i class="fas fa-sync-alt"></i>
-                        </button>
-                        <button id="clearSearchBtn" 
-                                class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-6 py-2 rounded-xl transition duration-200 font-medium">
-                            <i class="fas fa-times mr-2"></i>Clear
-                        </button>
-                    </div>
-                </div>
+<!-- Search Bar -->
+<div class="max-w-3xl mx-auto mb-8 animate-fade-in">
+    <div class="relative group">
+        <div class="absolute inset-0 bg-gradient-to-r from-itarsi-primary to-itarsi-secondary rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+        <div class="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+            
+            <!-- Row 1: Search Input + Refresh Button -->
+            <div class="flex items-center p-2">
+                <i class="fas fa-search text-gray-400 ml-3 text-lg md:text-xl"></i>
+                <input type="text" id="searchInput" 
+                       class="flex-1 p-3 md:p-4 outline-none text-gray-700 placeholder-gray-400 text-sm md:text-lg"
+                       placeholder="Search hospitals, schools, auto services, or real estate..."
+                       autocomplete="off">
+                <button id="refreshBtn" 
+                        class="bg-itarsi-primary hover:bg-itarsi-secondary text-white px-3 md:px-5 py-2 rounded-xl transition duration-200 font-medium mx-1 text-sm md:text-base"
+                        title="Refresh data">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
             </div>
+            
+            <!-- Row 2: Clear + Add Your Business (stacked on mobile) -->
+            <div class="flex flex-wrap items-center justify-center gap-2 px-2 pb-3 md:pb-2 md:px-3">
+                <button id="clearSearchBtn" 
+                        class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 md:px-6 py-1.5 md:py-2 rounded-xl transition duration-200 font-medium text-xs md:text-sm flex-1 md:flex-none">
+                    <i class="fas fa-times mr-1 md:mr-2"></i> Clear
+                </button>
+                <button id="submitListingBtn" 
+                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 md:px-6 py-1.5 md:py-2 rounded-full font-semibold shadow-lg transition-all duration-300 text-xs md:text-sm flex-1 md:flex-none">
+                    <i class="fas fa-plus-circle mr-1 md:mr-2"></i> Add Your Business
+                </button>
+            </div>
+            
         </div>
+    </div>
+</div>
+
 
         <!-- Featured Businesses Section with Carousel -->
         <div id="featuredSection" class="mb-10" style="display: none;">
@@ -457,6 +479,12 @@
     <button data-cat="blood bank" class="cat-btn bg-white text-gray-700 hover:bg-orange-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
         <i class="fas fa-hand-holding-heart text-orange-500 text-xs"></i> Blood Bank & Donor
     </button>
+
+<!-- 👇 AMBULANCE BUTTON -->
+<button data-cat="ambulance" class="cat-btn bg-white text-gray-700 hover:bg-red-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+    <i class="fas fa-ambulance text-red-500 text-xs"></i> Ambulance
+</button>
+
         </div>
 
         <!-- Results Stats -->
@@ -469,12 +497,89 @@
             <div class="skeleton h-60 rounded-2xl hidden lg:block"></div>
         </div>
 
+
+<!-- FAQ Section for SEO -->
+<section class="max-w-4xl mx-auto mt-12 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 dark:text-white mb-8">
+        ❓ Frequently Asked Questions
+    </h2>
+    
+    <div class="space-y-4">
+        <!-- FAQ 1 -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
+            <button onclick="toggleFAQ(this)" class="w-full text-left px-6 py-4 font-semibold text-gray-800 dark:text-white flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <span>What is My Itarsi?</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer hidden px-6 pb-4 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                My Itarsi is a free local directory that helps you discover the best services in Itarsi — including hospitals, schools, auto services, restaurants, real estate, blood banks, and ambulance services. It's completely community-driven and updated daily.
+            </div>
+        </div>
+        
+        <!-- FAQ 2 -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
+            <button onclick="toggleFAQ(this)" class="w-full text-left px-6 py-4 font-semibold text-gray-800 dark:text-white flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <span>How can I add my business to My Itarsi?</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer hidden px-6 pb-4 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                Simply click the <strong>"Add Your Business"</strong> button on the homepage. Fill in your business details, and our team will review and add your listing within 24-48 hours. It's completely free!
+            </div>
+        </div>
+        
+        <!-- FAQ 3 -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
+            <button onclick="toggleFAQ(this)" class="w-full text-left px-6 py-4 font-semibold text-gray-800 dark:text-white flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <span>Is My Itarsi free to use?</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer hidden px-6 pb-4 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                Yes! My Itarsi is completely free for both users and businesses. You can search for services, get contact information, and even add your own business listing at no cost.
+            </div>
+        </div>
+        
+        <!-- FAQ 4 -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
+            <button onclick="toggleFAQ(this)" class="w-full text-left px-6 py-4 font-semibold text-gray-800 dark:text-white flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <span>How do I find hospitals in Itarsi?</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer hidden px-6 pb-4 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                Simply click the <strong>"Hospitals"</strong> category button on the homepage. You'll see a complete list of hospitals in Itarsi with their address, phone number, timings, and ratings. You can also use the search bar to find specific services.
+            </div>
+        </div>
+        
+        <!-- FAQ 5 -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
+            <button onclick="toggleFAQ(this)" class="w-full text-left px-6 py-4 font-semibold text-gray-800 dark:text-white flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <span>Can I leave a review for a business?</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer hidden px-6 pb-4 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                Yes! Click on any business card to view details, then click the <strong>"Rate & Review"</strong> button. You can rate the business with stars and leave a comment to help others make better decisions.
+            </div>
+        </div>
+        
+        <!-- FAQ 6 -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
+            <button onclick="toggleFAQ(this)" class="w-full text-left px-6 py-4 font-semibold text-gray-800 dark:text-white flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <span>What categories are available on My Itarsi?</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer hidden px-6 pb-4 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                We currently cover <strong>7 categories</strong>: Hospitals, Schools, Auto Services, Real Estate, Restaurants, Blood Banks & Donors, and Ambulance Services. More categories will be added based on community demand.
+            </div>
+        </div>
+    </div>
+</section>
         <!-- Footer with Legal Disclaimer -->
         <footer class="mt-12 pt-6 border-t border-gray-200 text-center">
-            <p class="text-gray-500 text-sm">🌿 My Itarsi — connecting you with essential local services</p>
+<p class="text-gray-500 text-sm footer-text">🌿 My Itarsi — connecting you with essential local services</p>
             <p class="text-gray-400 text-xs mt-2">© 2026 My Itarsi Directory | All Rights Reserved</p>
             <p class="text-gray-400 text-xs mt-1">Click on any card for more details</p>
-            
+            <a href="privacy-policy.html" class="text-gray-400 hover:text-gray-600 text-xs underline">Privacy Policy</a>
+	<a href="contact.html" class="text-gray-400 hover:text-gray-600 text-xs underline">Contact Us</a>
+
             <!-- Legal Disclaimer -->
             <div class="mt-4 pt-3 border-t border-gray-100 max-w-2xl mx-auto">
                 <p class="text-gray-400 text-[10px] leading-relaxed">
@@ -506,6 +611,117 @@
         </div>
     </div>
 
+<!-- Submission for your contribution Modal -->
+<div id="submitModal" class="modal">
+    <div class="modal-content max-w-lg">
+        <div class="modal-close" onclick="closeSubmitModal()">
+            <i class="fas fa-times text-white text-sm"></i>
+        </div>
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">📝 Add Your Listing</h2>
+            <p class="text-gray-500 text-sm mb-4">Help us grow the Itarsi community directory!</p>
+            
+            <form id="submitForm">
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Business Name *</label>
+                        <input type="text" id="subName" required class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Category *</label>
+                        <select id="subCategory" required class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none">
+                            <option value="">Select Category</option>
+                            <option value="hospital">🏥 Hospital</option>
+                            <option value="school">📚 School</option>
+                            <option value="auto">🚗 Auto Service</option>
+                            <option value="realestate">🏢 Real Estate</option>
+                            <option value="restaurant">🍽️ Restaurant</option>
+                            <option value="bloodbank">🩸 Blood Bank</option>
+                            <option value="ambulance">🚑 Ambulance</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Address</label>
+                        <input type="text" id="subAddress" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="text" id="subContact" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Additional Info</label>
+                        <textarea id="subExtra" rows="2" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Your Name (optional)</label>
+                        <input type="text" id="subSubmittedBy" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none" placeholder="So we can thank you!">
+                    </div>
+                    <button type="submit" class="w-full bg-itarsi-primary hover:bg-itarsi-secondary text-white py-3 rounded-xl font-semibold transition">
+                        <i class="fas fa-paper-plane mr-2"></i> Submit Listing
+                    </button>
+                </div>
+            </form>
+            <div id="submitSuccess" class="hidden mt-4 p-4 bg-green-100 text-green-700 rounded-xl text-center">
+                <i class="fas fa-check-circle text-2xl mb-2"></i>
+                <p class="font-semibold">Thank you for your contribution! 🙏</p>
+                <p class="text-sm mt-1">We'll review and add your listing soon.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Review & Rating Modal -->
+<div id="reviewModal" class="modal">
+    <div class="modal-content max-w-lg">
+        <div class="modal-close" onclick="closeReviewModal()">
+            <i class="fas fa-times text-white text-sm"></i>
+        </div>
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">⭐ Rate & Review</h2>
+            <p id="reviewBusinessName" class="text-gray-600 text-sm mb-4">Loading...</p>
+            
+            <form id="reviewForm">
+                <!-- Hidden field for business name -->
+                <input type="hidden" id="reviewBusinessId">
+                
+                <!-- Star Rating -->
+                <div class="mb-4">
+                    <label class="text-sm font-medium text-gray-700 block mb-2">Your Rating</label>
+                    <div id="starContainer" class="flex gap-1 text-3xl cursor-pointer">
+                        <span class="star-select" data-value="1">☆</span>
+                        <span class="star-select" data-value="2">☆</span>
+                        <span class="star-select" data-value="3">☆</span>
+                        <span class="star-select" data-value="4">☆</span>
+                        <span class="star-select" data-value="5">☆</span>
+                    </div>
+                    <input type="hidden" id="reviewRating" value="0">
+                    <p id="ratingText" class="text-xs text-gray-400 mt-1">Tap a star to rate</p>
+                </div>
+                
+                <!-- Review Comment -->
+                <div class="mb-4">
+                    <label class="text-sm font-medium text-gray-700 block mb-2">Your Review</label>
+                    <textarea id="reviewComment" rows="3" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none" placeholder="Share your experience..."></textarea>
+                </div>
+                
+                <!-- Your Name -->
+                <div class="mb-4">
+                    <label class="text-sm font-medium text-gray-700 block mb-2">Your Name (optional)</label>
+                    <input type="text" id="reviewerName" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-itarsi-primary outline-none" placeholder="Your name">
+                </div>
+                
+                <button type="submit" class="w-full bg-itarsi-primary hover:bg-itarsi-secondary text-white py-3 rounded-xl font-semibold transition">
+                    <i class="fas fa-paper-plane mr-2"></i> Submit Review
+                </button>
+            </form>
+            <div id="reviewSuccess" class="hidden mt-4 p-4 bg-green-100 text-green-700 rounded-xl text-center">
+                <i class="fas fa-check-circle text-2xl mb-2"></i>
+                <p class="font-semibold">Thank you for your review! 🙏</p>
+                <p class="text-sm mt-1">Your feedback helps others discover great places.</p>
+            </div>
+        </div>
+    </div>
+</div>
     <script>
         // ========== COPY PROTECTION ==========
         document.addEventListener('contextmenu', e => e.preventDefault());
@@ -710,7 +926,9 @@
 // 👇 ADD THIS Blood donor CONFIG
 
 
-bloodbank: { bg: 'from-red-50 to-rose-50', border: 'border-red-200', iconBg: 'bg-red-100', icon: 'fas fa-hand-holding-heart', iconColor: 'text-red-500' }
+bloodbank: { bg: 'from-red-50 to-rose-50', border: 'border-red-200', iconBg: 'bg-red-100', icon: 'fas fa-hand-holding-heart', iconColor: 'text-red-500' },
+
+ambulance: { bg: 'from-red-50 to-rose-50', border: 'border-red-200', iconBg: 'bg-red-100', icon: 'fas fa-ambulance', iconColor: 'text-red-500' }  // ✅ ADD THIS
 
             };
             
@@ -759,113 +977,123 @@ bloodbank: { bg: 'from-red-50 to-rose-50', border: 'border-red-200', iconBg: 'bg
         
         // Modal functions
         function openModal(item) {
-            const config = {
-                hospital: { icon: 'fas fa-hospital', color: 'red', bg: 'bg-red-100', text: 'text-red-600' },
-                school: { icon: 'fas fa-graduation-cap', color: 'blue', bg: 'bg-blue-100', text: 'text-blue-600' },
-                auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-100', text: 'text-green-600' },
-                realestate: { icon: 'fas fa-building', color: 'purple', bg: 'bg-purple-100', text: 'text-purple-600' },
-		 restaurant: { icon: 'fas fa-utensils', color: 'orange', bg: 'bg-orange-100', text: 'text-orange-600' },
-		bloodbank: { icon: 'fas fa-hand-holding-heart', color: 'red', bg: 'bg-red-100', text: 'text-red-600' }
-            };
-            const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-100', text: 'text-gray-600' };
-            
-            const modalHTML = `
-                <div class="text-center mb-4">
-                    <div class="w-16 h-16 ${c.bg} rounded-2xl flex items-center justify-center mx-auto mb-3">
-                        <i class="${c.icon} text-${c.color}-500 text-2xl"></i>
-                    </div>
-                    <h2 class="text-xl font-bold text-gray-800">${escapeHtml(item.name)}</h2>
-                    <span class="inline-block px-3 py-1 ${c.bg} ${c.text} text-xs rounded-full mt-2 uppercase">${escapeHtml(item.category)}</span>
-                    ${isFeatured(item) ? '<span class="inline-block ml-2 px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full"><i class="fas fa-star mr-1"></i>Featured</span>' : ''}
-                </div>
-                
-                <div class="space-y-3 border-t border-gray-100 pt-4">
-                    ${item.address ? `
-                        <div class="flex gap-3 items-start">
-                            <i class="fas fa-map-marker-alt text-gray-400 mt-1 text-sm"></i>
-                            <div class="flex-1">
-                                <p class="text-xs font-medium text-gray-500">Address</p>
-                                <p class="text-sm text-gray-800">${escapeHtml(item.address)}</p>
-                                <a href="https://maps.google.com/?q=${encodeURIComponent(item.address)}" target="_blank" class="text-itarsi-primary text-xs mt-1 inline-block">
-                                    <i class="fas fa-external-link-alt mr-1"></i> Get Directions
-                                </a>
-                            </div>
-                        </div>
-                    ` : ''}
-                    
-			${item.category === 'restaurant' && item.rating ? `
-    <div class="flex gap-3 items-start">
-        <i class="fas fa-star text-yellow-400 mt-1 text-sm"></i>
-        <div class="flex-1">
-            <p class="text-xs font-medium text-gray-500">Rating</p>
-            <div class="mt-1">${getStarRating(item.rating)}</div>
+    const config = {
+        hospital: { icon: 'fas fa-hospital', color: 'red', bg: 'bg-red-100', text: 'text-red-600' },
+        school: { icon: 'fas fa-graduation-cap', color: 'blue', bg: 'bg-blue-100', text: 'text-blue-600' },
+        auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-100', text: 'text-green-600' },
+        realestate: { icon: 'fas fa-building', color: 'purple', bg: 'bg-purple-100', text: 'text-purple-600' },
+        restaurant: { icon: 'fas fa-utensils', color: 'orange', bg: 'bg-orange-100', text: 'text-orange-600' },
+        bloodbank: { icon: 'fas fa-hand-holding-heart', color: 'red', bg: 'bg-red-100', text: 'text-red-600' },
+        ambulance: { icon: 'fas fa-ambulance', color: 'red', bg: 'bg-red-100', text: 'text-red-600' }
+    };
+    const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-100', text: 'text-gray-600' };
+    
+    const modalHTML = `
+        <div class="text-center mb-4">
+            <div class="w-16 h-16 ${c.bg} rounded-2xl flex items-center justify-center mx-auto mb-3">
+                <i class="${c.icon} text-${c.color}-500 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-bold text-gray-800">${escapeHtml(item.name)}</h2>
+            <span class="inline-block px-3 py-1 ${c.bg} ${c.text} text-xs rounded-full mt-2 uppercase">${escapeHtml(item.category)}</span>
+            ${isFeatured(item) ? '<span class="inline-block ml-2 px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full"><i class="fas fa-star mr-1"></i>Featured</span>' : ''}
         </div>
-    </div>
-` : ''}
-
-                    ${item.contact ? `
-                        <div class="flex gap-3 items-start">
-                            <i class="fas fa-phone-alt text-gray-400 mt-1 text-sm"></i>
-                            <div class="flex-1">
-                                <p class="text-xs font-medium text-gray-500">Phone</p>
-                                ${generateNumberHTML(item.contact, item.name, item.name.replace(/\s/g, '_') + '_' + (item.category || 'other'))}
-                                <div class="mt-2 text-[10px] text-gray-400">
-                                    <i class="fas fa-shield-alt mr-1"></i> Number hidden for privacy — tap to reveal
-                                </div>
-                            </div>
-                        </div>
-                    ` : ''}
-                    
-                    ${item.extra ? `
-                        <div class="flex gap-3 items-start">
-                            <i class="fas fa-info-circle text-gray-400 mt-1 text-sm"></i>
-                            <div class="flex-1">
-                                <p class="text-xs font-medium text-gray-500">Additional Info</p>
-                                <p class="text-sm text-gray-800">${escapeHtml(item.extra)}</p>
-                            </div>
-                        </div>
-                    ` : ''}
-                    
-                    ${item.timings ? `
-                        <div class="flex gap-3 items-start">
-                            <i class="fas fa-clock text-gray-400 mt-1 text-sm"></i>
-                            <div class="flex-1">
-                                <p class="text-xs font-medium text-gray-500">Timings</p>
-                                <p class="text-sm text-gray-800">${escapeHtml(item.timings)}</p>
-                            </div>
-                        </div>
-                    ` : ''}
-                    
-                    ${item.website ? `
-                        <div class="flex gap-3 items-start">
-                            <i class="fas fa-globe text-gray-400 mt-1 text-sm"></i>
-                            <div class="flex-1">
-                                <p class="text-xs font-medium text-gray-500">Website</p>
-                                <a href="${escapeHtml(item.website)}" target="_blank" class="text-itarsi-primary text-xs break-all">
-                                    ${escapeHtml(item.website)}
-                                </a>
-                            </div>
-                        </div>
-                    ` : ''}
-                    ${item.email ? `
-                        <div class="flex gap-3 items-start">
-                            <i class="fas fa-envelope text-gray-400 mt-1 text-sm"></i>
-                            <div class="flex-1">
-                                <p class="text-xs font-medium text-gray-500">Email</p>
-                                <a href="mailto:${escapeHtml(item.email)}" class="text-itarsi-primary text-xs break-all">
-                                    ${escapeHtml(item.email)}
-                                </a>
-                            </div>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-            
-            document.getElementById('modalBody').innerHTML = modalHTML;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
         
+        <div class="space-y-3 border-t border-gray-100 pt-4">
+            ${item.address ? `
+                <div class="flex gap-3 items-start">
+                    <i class="fas fa-map-marker-alt text-gray-400 mt-1 text-sm"></i>
+                    <div class="flex-1">
+                        <p class="text-xs font-medium text-gray-500">Address</p>
+                        <p class="text-sm text-gray-800">${escapeHtml(item.address)}</p>
+                        <a href="https://maps.google.com/?q=${encodeURIComponent(item.address)}" target="_blank" class="text-itarsi-primary text-xs mt-1 inline-block">
+                            <i class="fas fa-external-link-alt mr-1"></i> Get Directions
+                        </a>
+                    </div>
+                </div>
+            ` : ''}
+            
+${item.category === 'restaurant' ? (() => {
+    const avgRating = getAverageRating(item.name);
+    return `
+        <div class="flex gap-3 items-start">
+            <i class="fas fa-star text-yellow-400 mt-1 text-sm"></i>
+            <div class="flex-1">
+                <p class="text-xs font-medium text-gray-500">Average Rating</p>
+                <div class="mt-1">${avgRating ? getStarRating(avgRating) : '<span class="text-sm text-gray-500">No ratings yet</span>'}</div>
+                <p class="text-[10px] text-gray-400">${avgRating ? 'Based on user reviews' : 'Be the first to review!'}</p>
+            </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-gray-200">
+            <button onclick="closeModal(); openReviewModal('${escapeHtml(item.name)}', '${escapeHtml(item.name)}')" 
+                    class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2.5 rounded-xl font-semibold transition flex items-center justify-center gap-2">
+                <i class="fas fa-star"></i> Rate & Review This Place
+            </button>
+        </div>
+    `;
+})() : ''}
+            ${item.contact ? `
+                <div class="flex gap-3 items-start">
+                    <i class="fas fa-phone-alt text-gray-400 mt-1 text-sm"></i>
+                    <div class="flex-1">
+                        <p class="text-xs font-medium text-gray-500">Phone</p>
+                        ${generateNumberHTML(item.contact, item.name, item.name.replace(/\s/g, '_') + '_' + (item.category || 'other'))}
+                        <div class="mt-2 text-[10px] text-gray-400">
+                            <i class="fas fa-shield-alt mr-1"></i> Number hidden for privacy — tap to reveal
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+            
+            ${item.extra ? `
+                <div class="flex gap-3 items-start">
+                    <i class="fas fa-info-circle text-gray-400 mt-1 text-sm"></i>
+                    <div class="flex-1">
+                        <p class="text-xs font-medium text-gray-500">Additional Info</p>
+                        <p class="text-sm text-gray-800">${escapeHtml(item.extra)}</p>
+                    </div>
+                </div>
+            ` : ''}
+            
+            ${item.timings ? `
+                <div class="flex gap-3 items-start">
+                    <i class="fas fa-clock text-gray-400 mt-1 text-sm"></i>
+                    <div class="flex-1">
+                        <p class="text-xs font-medium text-gray-500">Timings</p>
+                        <p class="text-sm text-gray-800">${escapeHtml(item.timings)}</p>
+                    </div>
+                </div>
+            ` : ''}
+            
+            ${item.website ? `
+                <div class="flex gap-3 items-start">
+                    <i class="fas fa-globe text-gray-400 mt-1 text-sm"></i>
+                    <div class="flex-1">
+                        <p class="text-xs font-medium text-gray-500">Website</p>
+                        <a href="${escapeHtml(item.website)}" target="_blank" class="text-itarsi-primary text-xs break-all">
+                            ${escapeHtml(item.website)}
+                        </a>
+                    </div>
+                </div>
+            ` : ''}
+            ${item.email ? `
+                <div class="flex gap-3 items-start">
+                    <i class="fas fa-envelope text-gray-400 mt-1 text-sm"></i>
+                    <div class="flex-1">
+                        <p class="text-xs font-medium text-gray-500">Email</p>
+                        <a href="mailto:${escapeHtml(item.email)}" class="text-itarsi-primary text-xs break-all">
+                            ${escapeHtml(item.email)}
+                        </a>
+                    </div>
+                </div>
+            ` : ''}
+            
+           
+    `;
+    
+    document.getElementById('modalBody').innerHTML = modalHTML;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
         function closeModal() {
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
@@ -876,46 +1104,92 @@ bloodbank: { bg: 'from-red-50 to-rose-50', border: 'border-red-200', iconBg: 'bg
         });
         
         async function fetchDataFromSheets(forceRefresh = false) {
-            if (isLoading) return;
+    if (isLoading) return;
+    
+    if (!forceRefresh) {
+        const cached = getCachedData();
+        if (cached && cached.length > 0) {
+            placesData = cached;
+            resultStats.innerHTML = `<i class="fas fa-database text-green-500 mr-2"></i> ${placesData.length} services`;
+            renderAll();
             
-            if (!forceRefresh) {
-                const cached = getCachedData();
-                if (cached && cached.length > 0) {
-                    placesData = cached;
-                    resultStats.innerHTML = `<i class="fas fa-database text-green-500 mr-2"></i> ${placesData.length} services`;
-                    renderAll();
-                    return;
-                }
-            }
-            
-            isLoading = true;
-            if (refreshBtn) refreshBtn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i>';
-            
-            try {
-                resultStats.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Loading...';
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000);
-                const response = await fetch(APPS_SCRIPT_URL, { signal: controller.signal });
-                clearTimeout(timeoutId);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const data = await response.json();
-                if (data[0] && data[0].error) throw new Error(data[0].error);
-                placesData = data.filter(item => item.name && item.category);
-                setCachedData(placesData);
-                resultStats.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> ${placesData.length} services`;
-                renderAll();
-            } catch (error) {
-                console.error(error);
-                if (placesData.length === 0) loadFallbackData();
-                resultStats.innerHTML = `<i class="fas fa-cloud-arrow-down text-gray-400 mr-2"></i> ${placesData.length} services`;
-                renderAll();
-            } finally {
-                isLoading = false;
-                if (refreshBtn) setTimeout(() => refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>', 1000);
-            }
+            // Load reviews after data
+            fetchReviewsFromSheets().then(() => {
+                renderAll(); // Re-render with ratings
+            });
+            return;
         }
+    }
+    
+    isLoading = true;
+    if (refreshBtn) refreshBtn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i>';
+    
+    try {
+        resultStats.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Loading...';
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        const response = await fetch(APPS_SCRIPT_URL, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        if (data[0] && data[0].error) throw new Error(data[0].error);
+        placesData = data.filter(item => item.name && item.category);
+        setCachedData(placesData);
+        resultStats.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> ${placesData.length} services`;
+        renderAll();
         
-        function loadFallbackData() {
+        // Load reviews after data
+        fetchReviewsFromSheets().then(() => {
+            renderAll(); // Re-render with ratings
+        });
+        
+    } catch (error) {
+        console.error(error);
+        if (placesData.length === 0) loadFallbackData();
+        resultStats.innerHTML = `<i class="fas fa-cloud-arrow-down text-gray-400 mr-2"></i> ${placesData.length} services`;
+        renderAll();
+    } finally {
+        isLoading = false;
+        if (refreshBtn) setTimeout(() => refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>', 1000);
+    }
+}
+        
+// ========== FETCH REVIEWS FROM GOOGLE SHEETS ==========
+async function fetchReviewsFromSheets() {
+    const REVIEW_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzr9pAh-bTat3S7cI3J3dmu_AWGw7OzjHLIPYODk0gxOh7V5CS7q9-IB2NC2aC0L-Lj/exec';
+    
+    try {
+        const response = await fetch(REVIEW_SHEETS_URL);
+        const data = await response.json();
+        
+        // Store reviews in a global variable
+        window.reviewsData = data;
+        console.log('✅ Reviews loaded:', data.length, 'reviews');
+        return data;
+    } catch (error) {
+        console.error('Error loading reviews:', error);
+        return [];
+    }
+}
+
+
+ 
+// ========== CALCULATE AVERAGE RATING ==========
+function getAverageRating(businessName) {
+    if (!window.reviewsData || window.reviewsData.length === 0) return null;
+    
+    const businessReviews = window.reviewsData.filter(r => r.businessName === businessName);
+    if (businessReviews.length === 0) return null;
+    
+    const total = businessReviews.reduce((sum, r) => sum + parseFloat(r.rating), 0);
+    const avg = total / businessReviews.length;
+    return Math.round(avg * 10) / 10; // Round to 1 decimal
+}
+
+ 
+
+
+      function loadFallbackData() {
     placesData = [
         { name: "Itarsi District Hospital", category: "hospital", address: "Civil Lines, Itarsi", contact: "07572 241001", extra: "24/7 Emergency", timings: "24x7", website: "", featured: "yes" },
         { name: "City Hospital", category: "hospital", address: "Junnardeo Road, Itarsi", contact: "07572 245678", extra: "Multi-speciality", timings: "24x7", website: "", featured: "yes" },
@@ -929,7 +1203,9 @@ bloodbank: { bg: 'from-red-50 to-rose-50', border: 'border-red-200', iconBg: 'bg
         { name: "Life Line Blood Centre", category: "bloodbank", address: "Junnardeo Road, Itarsi", contact: "07572 246666", extra: "Licensed Blood Bank", timings: "8am-8pm", website: "", featured: "" },
 
 { name: "Grand Hotel & Restaurant", category: "restaurant", address: "Station Road, Itarsi", contact: "07572 242211", extra: "Pure Veg & Non-Veg", timings: "10am-11pm", website: "", featured: "yes", rating: "4.5" },
-{ name: "Bikaner Sweets", category: "restaurant", address: "Main Market, Itarsi", contact: "07572 243300", extra: "Famous for sweets and snacks", timings: "8am-10pm", website: "", featured: "", rating: "4.2" }
+{ name: "Bikaner Sweets", category: "restaurant", address: "Main Market, Itarsi", contact: "07572 243300", extra: "Famous for sweets and snacks", timings: "8am-10pm", website: "", featured: "", rating: "4.2" },
+{ name: "City Ambulance Service", category: "ambulance", address: "Main Road, Itarsi", contact: "07572 241001", extra: "24/7 Emergency Service", timings: "24x7", website: "", featured: "" },
+    { name: "Red Cross Ambulance", category: "ambulance", address: "Civil Lines, Itarsi", contact: "07572 245555", extra: "Free Ambulance Service", timings: "24x7", website: "", featured: "yes" }
 	
     ];
 }
@@ -989,7 +1265,8 @@ bloodbank: { bg: 'from-red-50 to-rose-50', border: 'border-red-200', iconBg: 'bg
             auto: { icon: 'fas fa-car', color: 'green', bg: 'bg-green-50' },
             realestate: { icon: 'fas fa-building', color: 'purple', bg: 'bg-purple-50' },
             restaurant: { icon: 'fas fa-utensils', color: 'orange', bg: 'bg-orange-50' },
-            bloodbank: { icon: 'fas fa-hand-holding-heart', color: 'red', bg: 'bg-red-50' }
+            bloodbank: { icon: 'fas fa-hand-holding-heart', color: 'red', bg: 'bg-red-50' },
+	ambulance: { icon: 'fas fa-ambulance', color: 'red', bg: 'bg-red-50' }  // ✅ ADD THIS	
         };
         const c = config[item.category] || { icon: 'fas fa-building', color: 'gray', bg: 'bg-gray-50' };
         
@@ -1007,7 +1284,31 @@ bloodbank: { bg: 'from-red-50 to-rose-50', border: 'border-red-200', iconBg: 'bg
                         ${item.address ? `<div class="flex gap-2"><i class="fas fa-map-marker-alt text-${c.color}-500 mt-0.5 text-xs"></i> <span>${escapeHtml(item.address)}</span></div>` : ''}
                         ${item.contact ? `<div class="flex gap-2"><i class="fas fa-phone-alt text-${c.color}-500 mt-0.5 text-xs"></i> ${generateNumberHTML(item.contact, item.name, item.name.replace(/\s/g, '_') + '_' + (item.category || 'other'))}</div>` : ''}
                         ${item.extra ? `<div class="flex gap-2"><i class="fas fa-info-circle text-${c.color}-500 mt-0.5 text-xs"></i> <span>${escapeHtml(item.extra)}</span></div>` : ''}
-                        ${item.category === 'restaurant' && item.rating ? `<div class="flex gap-2 mt-1"><i class="fas fa-star text-yellow-400 mt-0.5 text-xs"></i> ${getStarRating(item.rating)}</div>` : ''}
+	${item.category === 'restaurant' ? (() => {
+    const avgRating = getAverageRating(item.name);
+    if (avgRating) {
+        return `
+            <div class="flex gap-3 items-start">
+                <i class="fas fa-star text-yellow-400 mt-1 text-sm"></i>
+                <div class="flex-1">
+                    <p class="text-xs font-medium text-gray-500">Rating</p>
+                    <div class="mt-1">${getStarRating(avgRating)}</div>
+                    <p class="text-[10px] text-gray-400">Based on user reviews</p>
+                </div>
+            </div>
+        `;
+    } else {
+        return `
+            <div class="flex gap-3 items-start">
+                <i class="fas fa-star text-yellow-400 mt-1 text-sm"></i>
+                <div class="flex-1">
+                    <p class="text-xs font-medium text-gray-500">Rating</p>
+                    <div class="mt-1 text-sm text-gray-500">No ratings yet — be the first to review!</div>
+                </div>
+            </div>
+        `;
+    }
+})() : ''}
                     </div>
                     <div class="mt-3 text-xs text-itarsi-primary">
                         <i class="fas fa-hand-pointer mr-1 text-xs"></i> Click for details
@@ -1057,9 +1358,11 @@ function getStarRating(rating) {
             else if (btnCat === 'realestate') btn.className = 'bg-white text-gray-700 hover:bg-purple-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
             else if (btnCat === 'restaurant') btn.className = 'bg-white text-gray-700 hover:bg-orange-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
             else if (btnCat === 'bloodbank') btn.className = 'bg-white text-gray-700 hover:bg-red-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
+            else if (btnCat === 'ambulance') btn.className = 'bg-white text-gray-700 hover:bg-red-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
             else btn.className = 'bg-white text-gray-700 hover:bg-gray-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm';
         }
     });
+
     renderCards();
 }       
         categoryBtns.forEach(btn => btn.addEventListener('click', () => setActiveCategory(btn.getAttribute('data-cat'))));
@@ -1082,6 +1385,319 @@ function getStarRating(rating) {
         
         // Close modal with Escape key
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+// ========== SUBMIT LISTING ==========
+const submitModal = document.getElementById('submitModal');
+const submitBtn = document.getElementById('submitListingBtn');
+const submitForm = document.getElementById('submitForm');
+const submitSuccess = document.getElementById('submitSuccess');
+
+// Open modal
+if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+        submitModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+}
+
+// Close modal
+function closeSubmitModal() {
+    submitModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Handle form submission
+submitForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = {
+        name: document.getElementById('subName').value,
+        category: document.getElementById('subCategory').value,
+        address: document.getElementById('subAddress').value,
+        contact: document.getElementById('subContact').value,
+        extra: document.getElementById('subExtra').value,
+        submittedBy: document.getElementById('subSubmittedBy').value || 'Anonymous',
+        timestamp: new Date().toISOString(),
+        status: 'pending'
+    };
+    
+    // Send to Google Sheets (your pending sheet URL)
+    const PENDING_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwIM4sP0Zx6HbHtI0Ikkdfxo7uHtds97yHLHGe1fBoZ0bUs3lnx9P0vLt5xJxmu9DQDdg/exec';
+    
+    try {
+        await fetch(PENDING_SHEETS_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+        
+        // Show success message
+        submitForm.style.display = 'none';
+        submitSuccess.classList.remove('hidden');
+        
+        // Reset form after 4 seconds
+        setTimeout(() => {
+            submitForm.reset();
+            submitForm.style.display = 'block';
+            submitSuccess.classList.add('hidden');
+            closeSubmitModal();
+        }, 4000);
+        
+    } catch (error) {
+        alert('⚠️ Something went wrong. Please try again later.');
+        console.error(error);
+    }
+});
+
+
+// ========== STAR RATING SYSTEM ==========
+let selectedRating = 0;
+
+const starContainer = document.getElementById('starContainer');
+const ratingInput = document.getElementById('reviewRating');
+const ratingText = document.getElementById('ratingText');
+
+if (starContainer) {
+    starContainer.addEventListener('click', (e) => {
+        const star = e.target.closest('.star-select');
+        if (!star) return;
+        
+        selectedRating = parseInt(star.dataset.value);
+        ratingInput.value = selectedRating;
+        
+        // Update stars
+        document.querySelectorAll('.star-select').forEach((s, index) => {
+            if (index < selectedRating) {
+                s.textContent = '★';
+                s.style.color = '#f97316';
+            } else {
+                s.textContent = '☆';
+                s.style.color = '#d1d5db';
+            }
+        });
+        
+        // Update rating text
+        const messages = ['', '⭐ Poor', '⭐ Fair', '⭐ Good', '⭐ Very Good', '⭐ Excellent'];
+        ratingText.textContent = messages[selectedRating] || 'Tap a star to rate';
+    });
+}
+
+// ========== REVIEW FORM SUBMISSION ==========
+const reviewForm = document.getElementById('reviewForm');
+const reviewModal = document.getElementById('reviewModal');
+
+function openReviewModal(businessName, businessId) {
+    document.getElementById('reviewBusinessName').textContent = `📝 ${businessName}`;
+    document.getElementById('reviewBusinessId').value = businessId;
+    
+    // Reset form
+    reviewForm.reset();
+    document.querySelectorAll('.star-select').forEach(s => {
+        s.textContent = '☆';
+        s.style.color = '#d1d5db';
+    });
+    selectedRating = 0;
+    ratingInput.value = '0';
+    ratingText.textContent = 'Tap a star to rate';
+    document.getElementById('reviewSuccess').classList.add('hidden');
+    reviewForm.style.display = 'block';
+    
+    reviewModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeReviewModal() {
+    reviewModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Handle review submission
+if (reviewForm) {
+    reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const rating = document.getElementById('reviewRating').value;
+        if (rating === '0') {
+            alert('Please select a star rating before submitting.');
+            return;
+        }
+        
+        const formData = {
+            businessName: document.getElementById('reviewBusinessId').value,
+            rating: rating,
+            comment: document.getElementById('reviewComment').value,
+            reviewerName: document.getElementById('reviewerName').value || 'Anonymous',
+            timestamp: new Date().toISOString()
+        };
+        
+        const REVIEW_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxmK_-F4WuTXTvajIbJm75PnFxjnyz0ceUfDdcbg-OILHu3Da5ivarzKzh2vFzA7EiO/exec';
+        
+        try {
+            await fetch(REVIEW_SHEETS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            
+            reviewForm.style.display = 'none';
+            document.getElementById('reviewSuccess').classList.remove('hidden');
+            
+            setTimeout(() => {
+                reviewForm.reset();
+                reviewForm.style.display = 'block';
+                document.getElementById('reviewSuccess').classList.add('hidden');
+                closeReviewModal();
+            }, 4000);
+            
+        } catch (error) {
+            alert('⚠️ Something went wrong. Please try again later.');
+            console.error(error);
+        }
+    });
+}
+
+// Close modal on backdrop click
+if (reviewModal) {
+    reviewModal.addEventListener('click', (e) => {
+        if (e.target === reviewModal) closeReviewModal();
+    });
+}
+
+
+
+// ========== LANGUAGE TOGGLE ==========
+let currentLang = 'en';
+
+const langToggle = document.getElementById('langToggle');
+// searchInput is already declared — DO NOT REDECLARE
+
+// All translatable text
+const translations = {
+    en: {
+        searchPlaceholder: 'Search hospitals, schools, auto services, or real estate...',
+        heroTitle: 'My Itarsi',
+        heroSubtitle: 'Discover the best of Itarsi — hospitals, schools, auto services, restaurants, real estate and more...',
+        heroBadge: '🌟 Itarsi\'s Trusted Local Directory',
+        footerText: '🌿 My Itarsi — connecting you with essential local services',
+        langLabel: '🇬🇧 English',
+        clearBtn: 'Clear',
+        addBusiness: 'Add Your Business',
+        allBtn: 'All',
+        categories: {
+            hospital: 'Hospitals',
+            school: 'Schools',
+            auto: 'Auto Services',
+            realestate: 'Real Estate',
+            restaurant: 'Restaurants',
+            bloodbank: 'Blood Bank & Donor',
+            ambulance: 'Ambulance'
+        }
+    },
+    hi: {
+        searchPlaceholder: 'अस्पताल, स्कूल, ऑटो सर्विस, या रियल एस्टेट खोजें...',
+        heroTitle: 'माय इटारसी',
+        heroSubtitle: 'इटारसी की सर्वश्रेष्ठ सेवाएं — अस्पताल, स्कूल, ऑटो सर्विस, रेस्तरां, रियल एस्टेट और भी बहुत कुछ...',
+        heroBadge: '🌟 इटारसी की विश्वसनीय स्थानीय निर्देशिका',
+        footerText: '🌿 माय इटारसी — आपको आवश्यक स्थानीय सेवाओं से जोड़ता है',
+        langLabel: '🇮🇳 हिंदी',
+        clearBtn: 'साफ़ करें',
+        addBusiness: 'अपना व्यवसाय जोड़ें',
+        allBtn: 'सभी',
+        categories: {
+            hospital: 'अस्पताल',
+            school: 'स्कूल',
+            auto: 'ऑटो सर्विस',
+            realestate: 'रियल एस्टेट',
+            restaurant: 'रेस्तरां',
+            bloodbank: 'रक्त बैंक और दाता',
+            ambulance: 'एम्बुलेंस'
+        }
+    }
+};
+
+function setLanguage(lang) {
+    currentLang = lang;
+    const t = translations[lang];
+    
+    // Update search placeholder
+    if (searchInput) searchInput.placeholder = t.searchPlaceholder;
+    
+    // Update hero text
+    const heroTitle = document.querySelector('.hero-title');
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    const heroBadge = document.querySelector('.hero-badge');
+    const footerText = document.querySelector('.footer-text');
+    
+    if (heroTitle) heroTitle.textContent = t.heroTitle;
+    if (heroSubtitle) heroSubtitle.textContent = t.heroSubtitle;
+    if (heroBadge) heroBadge.textContent = t.heroBadge;
+    if (footerText) footerText.textContent = t.footerText;
+    
+    // Update clear button
+    const clearBtn = document.getElementById('clearSearchBtn');
+    if (clearBtn) clearBtn.innerHTML = `<i class="fas fa-times mr-1 md:mr-2"></i> ${t.clearBtn}`;
+    
+    // Update Add Business button
+    const addBtn = document.getElementById('submitListingBtn');
+    if (addBtn) addBtn.innerHTML = `<i class="fas fa-plus-circle mr-1 md:mr-2"></i> ${t.addBusiness}`;
+    
+    // Update category buttons
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+        const cat = btn.getAttribute('data-cat');
+        if (cat === 'all') {
+            btn.innerHTML = `<i class="fas fa-th-large text-xs"></i> ${t.allBtn}`;
+        } else if (t.categories[cat]) {
+            // Keep the icon, change the text
+            const iconHTML = btn.querySelector('i')?.outerHTML || '';
+            btn.innerHTML = `${iconHTML} ${t.categories[cat]}`;
+        }
+    });
+    
+    // Update toggle button text
+    if (langToggle) {
+        langToggle.textContent = lang === 'en' ? '🇮🇳 हिंदी' : '🇬🇧 English';
+    }
+    
+    localStorage.setItem('myitarsi_lang', lang);
+}
+
+// Toggle language
+if (langToggle) {
+    langToggle.addEventListener('click', () => {
+        const newLang = currentLang === 'en' ? 'hi' : 'en';
+        setLanguage(newLang);
+    });
+}
+
+// Load saved language preference
+const savedLang = localStorage.getItem('myitarsi_lang') || 'en';
+setLanguage(savedLang);
+
+
+// ========== FAQ TOGGLE ==========
+function toggleFAQ(button) {
+    const answer = button.nextElementSibling;
+    const icon = button.querySelector('i');
+    
+    // Close all other FAQs
+    document.querySelectorAll('.faq-answer').forEach(el => {
+        if (el !== answer) {
+            el.classList.add('hidden');
+            const otherIcon = el.previousElementSibling.querySelector('i');
+            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+        }
+    });
+    
+    // Toggle this FAQ
+    answer.classList.toggle('hidden');
+    if (icon) {
+        icon.style.transform = answer.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+}
+
+
     </script>
 </body>
 </html>
