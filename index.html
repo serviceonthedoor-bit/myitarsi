@@ -3,14 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>My Itarsi | Local Directory of Hospitals, Schools & Auto Services</title>
-    <meta name="description" content="Complete directory of hospitals, schools, and auto services in Itarsi, Madhya Pradesh.">
+<title>Itarsi Local Directory | My Itarsi — Hospitals, Schools & More</title>
+<meta name="description" content="Find the best hospitals, schools, auto services, restaurants & real estate in Itarsi, Madhya Pradesh. Complete local directory powered by the community.">
     <meta name="copyright" content="My Itarsi Directory">
-	<!-- Favicon -->
-<link rel="icon" type="image/png" href="images/favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png">
-
+    
     <!-- Tailwind CSS + Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -374,8 +370,8 @@
                <div class="inline-block bg-white/20 backdrop-blur-md rounded-full px-3 py-1 text-xs mb-2 font-medium shadow-lg hero-badge">
     🌟 Itarsi's Trusted Local Directory
 </div>
-<h1 class="text-3xl md:text-4xl font-black mb-1 tracking-tight hero-title">My Itarsi</h1>
-<p class="text-sm md:text-base opacity-95 max-w-2xl mx-auto hero-subtitle">Discover the best of Itarsi — hospitals, schools, auto services, restaurants, real estate and more...</p>
+<h1 class="text-3xl md:text-4xl font-black mb-1 tracking-tight hero-title">Itarsi's Complete Local Directory</h1>
+<p class="text-sm md:text-base opacity-95 max-w-2xl mx-auto hero-subtitle">Find trusted services in Itarsi — hospitals, schools, auto services, restaurants, real estate and more... Powered by the community.</p>
                 <p class="text-xs mt-2 opacity-90 flex items-center justify-center gap-2">
                     <i class="fas fa-check-circle"></i> Local Listings 
                     <span class="w-1 h-1 bg-white rounded-full"></span> 
@@ -385,6 +381,7 @@
                 </p>
             </div>
         </div>
+
 
 <!-- Search Bar -->
 <div class="max-w-3xl mx-auto mb-8 animate-fade-in">
@@ -461,31 +458,31 @@
             <button data-cat="all" class="cat-btn bg-itarsi-primary text-white px-5 py-2 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
                 <i class="fas fa-th-large text-xs"></i> All
             </button>
-            <button data-cat="hospital" class="cat-btn bg-white text-gray-700 hover:bg-red-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+            <button data-cat="hospital" id="cat-hospital" class="cat-btn bg-white text-gray-700 hover:bg-red-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
                 <i class="fas fa-hospital text-red-500 text-xs"></i> Hospitals
             </button>
-            <button data-cat="school" class="cat-btn bg-white text-gray-700 hover:bg-blue-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+            <button data-cat="school" id="cat-school" class="cat-btn bg-white text-gray-700 hover:bg-blue-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
                 <i class="fas fa-graduation-cap text-blue-500 text-xs"></i> Schools
             </button>
-            <button data-cat="auto" class="cat-btn bg-white text-gray-700 hover:bg-green-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+            <button data-cat="auto" id="cat-auto" class="cat-btn bg-white text-gray-700 hover:bg-green-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
                 <i class="fas fa-car text-green-500 text-xs"></i> Auto Services
             </button>
-            <button data-cat="realestate" class="cat-btn bg-white text-gray-700 hover:bg-purple-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+            <button data-cat="realestate" id="cat-realestate" class="cat-btn bg-white text-gray-700 hover:bg-purple-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
                 <i class="fas fa-building text-purple-500 text-xs"></i> Real Estate
             </button>
 
 	<!-- 👇 ADD THIS NEW RESTAURANT BUTTON -->
-    <button data-cat="restaurant" class="cat-btn bg-white text-gray-700 hover:bg-orange-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+    <button data-cat="restaurant" id="cat-restaurant" class="cat-btn bg-white text-gray-700 hover:bg-orange-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
         <i class="fas fa-utensils text-orange-500 text-xs"></i> Restaurants
     </button>
 
 <!-- 👇 Blood Bank and Blood Donor -->
-    <button data-cat="blood bank" class="cat-btn bg-white text-gray-700 hover:bg-orange-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+<button data-cat="bloodbank" id="cat-bloodbank" class="cat-btn bg-white text-gray-700 hover:bg-orange-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
         <i class="fas fa-hand-holding-heart text-orange-500 text-xs"></i> Blood Bank & Donor
     </button>
 
 <!-- 👇 AMBULANCE BUTTON -->
-<button data-cat="ambulance" class="cat-btn bg-white text-gray-700 hover:bg-red-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
+<button data-cat="ambulance" id="cat-ambulance" class="cat-btn bg-white text-gray-700 hover:bg-red-50 px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 flex items-center gap-1 text-sm">
     <i class="fas fa-ambulance text-red-500 text-xs"></i> Ambulance
 </button>
 
@@ -598,10 +595,28 @@
                 </p>
                 <p class="text-gray-400 text-[9px] mt-2">
                     For corrections or removal requests, please contact the site administrator.
+
+	
                 </p>
-            </div>
+        
+
+<!-- Footer Keywords -->
+<div class="max-w-4xl mx-auto mt-6 pt-4 border-t border-gray-200 text-center">
+    <p class="text-xs text-gray-400">Popular Searches: 
+        <a href="#cat-hospital" class="text-gray-400 hover:text-gray-600">Hospitals in Itarsi</a> • 
+        <a href="#cat-school" class="text-gray-400 hover:text-gray-600">Schools in Itarsi</a> • 
+        <a href="#cat-restaurant" class="text-gray-400 hover:text-gray-600">Restaurants in Itarsi</a> • 
+        <a href="#cat-auto" class="text-gray-400 hover:text-gray-600">Auto Services in Itarsi</a> • 
+        <a href="#cat-realestate" class="text-gray-400 hover:text-gray-600">Real Estate in Itarsi</a> • 
+        <a href="#cat-bloodbank" class="text-gray-400 hover:text-gray-600">Blood Bank in Itarsi</a> • 
+        <a href="#cat-ambulance" class="text-gray-400 hover:text-gray-600">Ambulance in Itarsi</a>
+    </p>
+	</div>
+	    </div>
         </footer>
     </div>
+
+
 
     <!-- Modal Popup -->
     <div id="detailModal" class="modal">
@@ -741,7 +756,7 @@
         document.addEventListener('dragstart', e => e.preventDefault());
         
         // ========== CONFIGURATION ==========
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI54-1K2KfJ_XF9opzuajfWJSnxlPXjxV6letT7z3syA8l6khIaypcAGNfqKp4aXmP/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI54-1K2KfJ_XF9opzuajfWJSnxlPXjxV6letT7z3syA8l6khIaypcAGNfqKp4';
         const CACHE_KEY = 'myitarsi_data_v2';
         const CACHE_DURATION = 0;
         
@@ -1580,7 +1595,7 @@ const langToggle = document.getElementById('langToggle');
 // All translatable text
 const translations = {
     en: {
-        searchPlaceholder: 'Search hospitals, schools, auto services, real estate, restaurants, blood bank and many more ...',
+        searchPlaceholder: 'Search hospitals, schools, auto services, or real estate...',
         heroTitle: 'My Itarsi',
         heroSubtitle: 'Discover the best of Itarsi — hospitals, schools, auto services, restaurants, real estate and more...',
         heroBadge: '🌟 Itarsi\'s Trusted Local Directory',
@@ -1701,52 +1716,45 @@ function toggleFAQ(button) {
     }
 }
 
-		// ========== TRACK PHONE CLICKS ==========
-    document.addEventListener('click', function(e) {
-        const target = e.target.closest('a[href^="tel:"]');
-        if (target) {
-            const card = target.closest('.card');
-            const businessName = card ? card.querySelector('h3')?.textContent || 'Unknown' : 'Unknown';
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'phone_click', {
-                    'event_category': 'engagement',
-                    'event_label': businessName,
-                    'value': 1
-                });
-                console.log('📞 Phone click tracked for:', businessName);
-            }
-        }
-    });
 
-    // ========== TRACK CARD CLICKS ==========
-    document.addEventListener('click', function(e) {
-        const card = e.target.closest('.card');
-        if (card && !e.target.closest('a[href^="tel:"]')) {
-            const businessName = card.querySelector('h3')?.textContent || 'Unknown';
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'card_click', {
-                    'event_category': 'engagement',
-                    'event_label': businessName,
-                    'value': 1
-                });
-                console.log('🖱️ Card click tracked for:', businessName);
-            }
-        }
-    });
+// ========== FOOTER LINK HANDLER ==========
+document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href^="#cat-"]');
+    if (!link) return;
+    
+    e.preventDefault();
+    const targetId = link.getAttribute('href');
+    const target = document.querySelector(targetId);
+    if (!target) return;
+    
+    // Scroll to category
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    // Click the category button
+    const cat = targetId.replace('#cat-', '');
+    const categoryMap = {
+    'hospital': 'hospital',
+    'school': 'school', 
+    'auto': 'auto',
+    'realestate': 'realestate',
+    'restaurant': 'restaurant',
+    'bloodbank': 'bloodbank',
+    'ambulance': 'ambulance'
+};
+    
+    const btn = document.querySelector(`[data-cat="${categoryMap[cat] || cat}"]`);
+    if (btn) {
+        btn.click();
+        // Visual feedback
+        btn.style.transform = 'scale(1.1)';
+        btn.style.boxShadow = '0 0 20px rgba(11, 94, 74, 0.5)';
+        setTimeout(() => {
+            btn.style.transform = '';
+            btn.style.boxShadow = '';
+        }, 500);
+    }
+});
 
-    // ========== TRACK REVIEW BUTTON CLICKS ==========
-    document.addEventListener('click', function(e) {
-        const btn = e.target.closest('#reviewModal, .review-btn, [onclick*="openReviewModal"]');
-        if (btn) {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'review_button_click', {
-                    'event_category': 'engagement',
-                    'event_label': 'Rate & Review'
-                });
-                console.log('⭐ Review button click tracked');
-            }
-        }
-    });
     </script>
 </body>
 </html>
