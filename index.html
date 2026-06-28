@@ -91,6 +91,8 @@
         /* ===== CATEGORY STRIP ===== */
         .cat-strip-wrapper {
             position: relative;
+            padding-left: 36px;
+            padding-right: 36px;
         }
         .cat-strip {
             display: flex;
@@ -118,15 +120,33 @@
             transition: opacity 0.3s;
         }
         .cat-strip-wrapper::before {
-            left: 0;
+            left: 36px;
             background: linear-gradient(to right, #FAF7F2, transparent);
         }
         .cat-strip-wrapper::after {
-            right: 0;
+            right: 36px;
             background: linear-gradient(to left, #FAF7F2, transparent);
         }
         .cat-strip-wrapper.at-start::before { opacity: 0; }
         .cat-strip-wrapper.at-end::after   { opacity: 0; }
+        /* "more" hint text that fades in when not at end */
+        .cat-more-hint {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            font-weight: 700;
+            color: #0D3B2E;
+            opacity: 0.55;
+            pointer-events: none;
+            z-index: 2;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.03em;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+        .cat-strip-wrapper.at-end .cat-more-hint { opacity: 0; }
 
         /* Scroll arrow buttons */
         .cat-scroll-btn {
@@ -134,30 +154,35 @@
             top: 50%;
             transform: translateY(-60%);
             z-index: 3;
-            width: 30px;
-            height: 30px;
-            background: white;
-            border: 1.5px solid #E8E0D5;
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #0D3B2E, #1A5C45);
+            border: none;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            box-shadow: 0 3px 12px rgba(13,59,46,0.35);
             transition: all 0.2s;
-            color: #0D3B2E;
-            font-size: 11px;
+            color: white;
+            font-size: 12px;
         }
-        .cat-scroll-btn:hover { background: #0D3B2E; color: white; border-color: #0D3B2E; }
-        .cat-scroll-btn.left  { left: -14px; }
-        .cat-scroll-btn.right { right: -14px; }
+        .cat-scroll-btn:hover { background: linear-gradient(135deg, #1A5C45, #2A7A5C); box-shadow: 0 5px 18px rgba(13,59,46,0.45); transform: translateY(-60%) scale(1.08); }
+        .cat-scroll-btn.left  { left: 2px; }
+        .cat-scroll-btn.right { right: 2px; animation: pulse-arrow 1.8s ease-in-out infinite; }
         .cat-scroll-btn.hidden-btn { opacity: 0; pointer-events: none; }
+        @keyframes pulse-arrow {
+            0%, 100% { box-shadow: 0 3px 12px rgba(13,59,46,0.35); }
+            50% { box-shadow: 0 3px 20px rgba(13,59,46,0.6), 0 0 0 5px rgba(13,59,46,0.12); }
+        }
 
         .cat-pill {
             display: inline-flex;
             align-items: center;
             gap: 7px;
             padding: 8px 16px;
+	    justify-content: center; /* This centers the content */
             border-radius: 50px;
             font-size: 13px;
             font-weight: 600;
@@ -335,6 +360,8 @@
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
+            text-align: center;
             gap: 6px;
             font-family: 'Poppins', sans-serif;
         }
@@ -444,11 +471,12 @@
             cursor: pointer;
             transition: all 0.25s;
             font-family: 'Poppins', sans-serif;
-            display: inline-flex;
+            display: flex;
             align-items: center;
+            justify-content: center;
+            text-align: center;
             gap: 8px;
             width: 100%;
-            justify-content: center;
         }
         .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,59,46,0.3); }
 
@@ -479,11 +507,10 @@
             <button id="langToggle" class="text-xs font-semibold text-white/80 hover:text-white transition bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full border border-white/10">
                 🇮🇳 हिंदी
             </button>
-            <div class="hidden sm:flex items-center gap-5">
-		<a href="whats-new.html" class="text-white/70 hover:text-white transition text-sm font-medium">Event in Itarsi</a>
-                <a href="about-itarsi.html" class="text-white/70 hover:text-white transition text-sm font-medium">About Itarsi</a>
-                <a href="index.html" class="text-white/70 hover:text-white transition text-sm font-medium">Home</a>
-		
+            <div class="flex items-center gap-3 sm:gap-5">
+		<a href="whats-new.html" class="hidden sm:inline text-white/70 hover:text-white transition text-sm font-medium">Event in Itarsi</a>
+                <a href="about-itarsi.html" class="text-white/70 hover:text-white transition text-xs sm:text-sm font-medium">About Itarsi</a>
+                <a href="index.html" class="text-white/70 hover:text-white transition text-xs sm:text-sm font-medium">Home</a>
             </div>
         </div>
     </div>
@@ -582,45 +609,46 @@
             <button class="cat-scroll-btn right" id="catScrollRight" onclick="scrollCatStrip(1)" aria-label="Scroll right">
                 <i class="fas fa-chevron-right"></i>
             </button>
+            <span class="cat-more-hint">more &rsaquo;&rsaquo;</span>
             <div class="cat-strip" id="catStrip">
                 <button data-cat="all" class="cat-pill active">
-                    <span class="pill-icon bg-brand/10"><i class="fas fa-th-large text-brand" style="font-size:9px"></i></span>All
+                    <span class="pill-icon bg-brand/10"><i class="fas fa-th-large text-brand" style="font-size:9px"></i></span><span>All</span>
                 </button>
                 <button data-cat="hospital" id="cat-hospital" class="cat-pill">
-                    <span class="pill-icon bg-red-100"><i class="fas fa-hospital text-red-500" style="font-size:9px"></i></span>Hospitals
+                    <span class="pill-icon bg-red-100"><i class="fas fa-hospital text-red-500" style="font-size:9px"></i></span><span>Hospitals</span>
                 </button>
                 <button data-cat="school" id="cat-school" class="cat-pill">
-                    <span class="pill-icon bg-blue-100"><i class="fas fa-graduation-cap text-blue-500" style="font-size:9px"></i></span>Schools
+                    <span class="pill-icon bg-blue-100"><i class="fas fa-graduation-cap text-blue-500" style="font-size:9px"></i></span><span>Schools</span>
                 </button>
                 <button data-cat="auto" id="cat-auto" class="cat-pill">
-                    <span class="pill-icon bg-green-100"><i class="fas fa-car text-green-500" style="font-size:9px"></i></span>Auto Services
+                    <span class="pill-icon bg-green-100"><i class="fas fa-car text-green-500" style="font-size:9px"></i></span><span>Auto Services</span>
                 </button>
                 <button data-cat="realestate" id="cat-realestate" class="cat-pill">
-                    <span class="pill-icon bg-purple-100"><i class="fas fa-building text-purple-500" style="font-size:9px"></i></span>Real Estate
+                    <span class="pill-icon bg-purple-100"><i class="fas fa-building text-purple-500" style="font-size:9px"></i></span><span>Real Estate</span>
                 </button>
                 <button data-cat="restaurant" id="cat-restaurant" class="cat-pill">
-                    <span class="pill-icon bg-orange-100"><i class="fas fa-utensils text-orange-500" style="font-size:9px"></i></span>Restaurants
+                    <span class="pill-icon bg-orange-100"><i class="fas fa-utensils text-orange-500" style="font-size:9px"></i></span><span>Restaurants</span>
                 </button>
                 <button data-cat="bloodbank" id="cat-bloodbank" class="cat-pill">
-                    <span class="pill-icon bg-red-100"><i class="fas fa-hand-holding-heart text-red-500" style="font-size:9px"></i></span>Blood Bank & Donor
+                    <span class="pill-icon bg-red-100"><i class="fas fa-hand-holding-heart text-red-500" style="font-size:9px"></i></span><span>Blood Bank & Donor</span>
                 </button>
                 <button data-cat="ambulance" id="cat-ambulance" class="cat-pill">
-                    <span class="pill-icon bg-red-100"><i class="fas fa-ambulance text-red-500" style="font-size:9px"></i></span>Ambulance
+                    <span class="pill-icon bg-red-100"><i class="fas fa-ambulance text-red-500" style="font-size:9px"></i></span><span>Ambulance</span>
                 </button>
                 <button data-cat="grocery" id="cat-grocery" class="cat-pill">
-                    <span class="pill-icon bg-green-100"><i class="fas fa-shopping-basket text-green-500" style="font-size:9px"></i></span>Grocery
+                    <span class="pill-icon bg-green-100"><i class="fas fa-shopping-basket text-green-500" style="font-size:9px"></i></span><span>Grocery</span>
                 </button>
                 <button data-cat="electrician" id="cat-electrician" class="cat-pill">
-                    <span class="pill-icon bg-yellow-100"><i class="fas fa-tools text-yellow-500" style="font-size:9px"></i></span>Electrician-Plumber
+                    <span class="pill-icon bg-yellow-100"><i class="fas fa-tools text-yellow-500" style="font-size:9px"></i></span><span>Electrician-Plumber</span>
                 </button>
                 <button data-cat="automobile" id="cat-automobile" class="cat-pill">
-                    <span class="pill-icon bg-blue-100"><i class="fas fa-car text-blue-500" style="font-size:9px"></i></span>Auto Showroom
+                    <span class="pill-icon bg-blue-100"><i class="fas fa-car text-blue-500" style="font-size:9px"></i></span><span>Auto Showroom</span>
                 </button>
                 <button data-cat="chemist" id="cat-chemist" class="cat-pill">
-                    <span class="pill-icon bg-red-100"><i class="fas fa-prescription-bottle text-red-500" style="font-size:9px"></i></span>Chemist
+                    <span class="pill-icon bg-red-100"><i class="fas fa-prescription-bottle text-red-500" style="font-size:9px"></i></span><span>Chemist</span>
                 </button>
                 <button data-cat="other" id="cat-other" class="cat-pill">
-                    <span class="pill-icon bg-purple-100"><i class="fas fa-ellipsis-h text-purple-500" style="font-size:9px"></i></span>Other
+                    <span class="pill-icon bg-purple-100"><i class="fas fa-ellipsis-h text-purple-500" style="font-size:9px"></i></span><span>Other</span>
                 </button>
             </div>
         </div>
@@ -863,7 +891,7 @@
     document.addEventListener('dragstart', e => e.preventDefault());
 
     // ========== CONFIGURATION ==========
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI54-1K2KfJ_XF9opzuajfWJSnxlPXjxV6letT7z3syA8l6khIaypcAGNfqKp4aXmP/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI54-1K2KfJ_XF9opzuajfWJSnxlPXjxV6letT7z3syA8l6khIaypcAGNfqKp4aXm';
     const CACHE_KEY = 'myitarsi_data_v2';
     const CACHE_DURATION = 0;
 
@@ -1401,11 +1429,11 @@
         document.querySelectorAll('.cat-pill').forEach(btn => {
             const cat = btn.getAttribute('data-cat');
             if (cat === 'all') {
-                btn.innerHTML = `<span class="pill-icon bg-brand/10"><i class="fas fa-th-large text-brand" style="font-size:9px"></i></span>${t.allBtn}`;
+                btn.innerHTML = `<span class="pill-icon bg-brand/10"><i class="fas fa-th-large text-brand" style="font-size:9px"></i></span><span>${t.allBtn}</span>`;
             } else if (t.categories[cat]) {
                 const iconEl = btn.querySelector('.pill-icon');
                 const iconHTML = iconEl ? iconEl.outerHTML : '';
-                btn.innerHTML = `${iconHTML} ${t.categories[cat]}`;
+                btn.innerHTML = `${iconHTML}<span>${t.categories[cat]}</span>`;
             }
         });
         if (langToggle) langToggle.textContent = lang === 'en' ? '🇮🇳 हिंदी' : '🇬🇧 English';
